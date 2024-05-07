@@ -5,7 +5,7 @@ const getSchema = (props) => {
       {
         id: 'default',
         title: 'Default',
-        fields: ['url'],
+        fields: ['url', 'with_metadata_section'],
       },
       {
         id: 'toolbar',
@@ -17,6 +17,11 @@ const getSchema = (props) => {
       url: {
         title: 'URL',
         widget: 'internal_url',
+      },
+      with_metadata_section: {
+        title: 'Show metadata section',
+        type: 'boolean',
+        defaultValue: true,
       },
       with_notes: {
         title: 'Show note',

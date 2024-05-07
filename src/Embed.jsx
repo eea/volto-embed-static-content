@@ -10,10 +10,9 @@ import {
   MoreInfo,
   Share,
   Enlarge,
-} from '@eeacms/volto-embed-static-content/components';
-import './style.less';
+} from '@eeacms/volto-embed/Toolbar';
 
-function EmbedMap({ data, intl, id, screen }) {
+function Embed({ data, intl, id, screen }) {
   const el = useRef();
   const [mobile, setMobile] = useState(false);
 
@@ -33,7 +32,7 @@ function EmbedMap({ data, intl, id, screen }) {
     <div
       ref={el}
       className={cx(
-        'block maps align',
+        'block embed-content-static align',
         {
           center: !Boolean(data.align),
         },
@@ -41,7 +40,7 @@ function EmbedMap({ data, intl, id, screen }) {
       )}
     >
       <div
-        className={cx('maps-inner', {
+        className={cx('embed-content-static-inner', {
           'full-width': data.align === 'full',
         })}
       >
@@ -58,8 +57,8 @@ function EmbedMap({ data, intl, id, screen }) {
         <div className="right-col">
           {data.with_share && <Share href={data['@id']} />}
           {data.with_enlarge && (
-            <Enlarge className="enlarge-embed-maps">
-              <EmbedMap
+            <Enlarge className="enlarge-embed-embed-content-static">
+              <Embed
                 data={{
                   ...data,
                   height: '100%',
@@ -85,4 +84,4 @@ export default compose(
   connect((state) => ({
     screen: state.screen,
   })),
-)(EmbedMap);
+)(Embed);

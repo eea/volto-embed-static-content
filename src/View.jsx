@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Message } from 'semantic-ui-react';
 import { getContent } from '@plone/volto/actions';
 import { flattenToAppURL } from '@plone/volto/helpers';
+import { getFigureMetadata } from './utils';
+import { mapKeys } from 'lodash';
 import Embed from './Embed';
 
 function View(props) {
@@ -23,6 +25,7 @@ function View(props) {
         '@id': props.embedContent['@id'],
         title: props.embedContent['title'],
         publisher: props.embedContent['publisher'],
+        description: props.embedContent['description'],
         geo_coverage: props.embedContent['geo_coverage'],
         other_organisations: props.embedContent['other_organisations'],
         data_provenance: props.embedContent['data_provenance'],
@@ -45,6 +48,35 @@ function View(props) {
     } /* eslint-disable-next-line */
   }, [url]);
 
+  useEffect(() => {
+    const mode = props.mode;
+    const with_metadata_section = props.data?.with_metadata_section ?? true;
+    if (mode !== 'edit') return;
+    if (!with_metadata_section) {
+      let metadataBlock = null;
+      mapKeys(props.properties.blocks, (data, block) => {
+        if (data?.['id'] === `figure-metadata-${props.block}`) {
+          metadataBlock = block;
+        }
+      });
+      if (metadataBlock) {
+        props.onDeleteBlock(metadataBlock);
+        props.onSelectBlock(props.block);
+      }
+      return;
+    }
+    if (embedContent) {
+      const metadataSection = getFigureMetadata(props.block, {
+        title: embedContent.title,
+        description: embedContent.description,
+      });
+      if (!metadataSection) return;
+
+      props.onInsertBlock(props.block, metadataSection);
+    }
+    /* eslint-disable-next-line */
+  }, [props.data.with_metadata_section, embedContent, mode]);
+
   if (mode === 'edit' && !url) {
     return <Message>Please select content url from block editor.</Message>;
   }
@@ -58,7 +90,7 @@ function View(props) {
   }
 
   return (
-    <div className="embed-map">
+    <div className="embed-content-static">
       <Embed
         data={{
           ...embedContent,
