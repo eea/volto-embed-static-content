@@ -10,7 +10,7 @@ import {
   MoreInfo,
   Share,
   Enlarge,
-} from '@eeacms/volto-embed/Toolbar';
+} from '@eeacms/volto-embed-static-content/components';
 import './style.less';
 
 function EmbedMap({ data, intl, id, screen }) {

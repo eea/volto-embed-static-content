@@ -1,11 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
-import { connect } from 'react-redux';
 import { Message } from 'semantic-ui-react';
-import { getContent } from '@plone/volto/actions';
 import { flattenToAppURL } from '@plone/volto/helpers';
 import Embed from './Embed';
 
-function View(props) {
+export function View(props) {
   const { mode } = props;
   const {
     with_notes = true,
@@ -42,7 +40,7 @@ function View(props) {
   useEffect(() => {
     if (url && !props.data.embedContent) {
       props.getContent(flattenToAppURL(url), null, props.id);
-    } /* eslint-disable-next-line */
+    }
   }, [url]);
 
   if (mode === 'edit' && !url) {
@@ -73,11 +71,3 @@ function View(props) {
     </div>
   );
 }
-
-export default connect(
-  (state, props) => ({
-    embedContent: state.content.subrequests?.[props.id]?.data,
-    data_query: state.content?.data?.data_query,
-  }),
-  { getContent },
-)(View);
