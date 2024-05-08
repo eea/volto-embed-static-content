@@ -50,7 +50,7 @@
     "theme/**/*.overrides": [
       "make stylelint-fix"
     ],
-    "src/**/*.overrides":
+    "src/**/*.overrides": [
       "make stylelint-fix"
     ]
   },
