@@ -5,7 +5,7 @@ import sliderSVG from '@plone/volto/icons/slider.svg';
 const applyConfig = (config) => {
   config.blocks.blocksConfig.embed_static_content = {
     id: 'embed_static_content',
-    title: 'Embed static content',
+    title: 'Embed static figure',
     icon: sliderSVG,
     group: 'data_visualizations',
     edit: EmbedStatic,
