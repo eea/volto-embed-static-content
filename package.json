@@ -30,7 +30,8 @@
     "md5": "^2.3.0"
   },
   "dependencies": {
-    "@eeacms/volto-embed": "*"
+    "@eeacms/volto-embed": "*",
+    "cypress": "13.1.0",
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx,json}": [
@@ -49,7 +50,7 @@
     "theme/**/*.overrides": [
       "make stylelint-fix"
     ],
-    "src/**/*.overrides": [
+    "src/**/*.overrides":
       "make stylelint-fix"
     ]
   },
