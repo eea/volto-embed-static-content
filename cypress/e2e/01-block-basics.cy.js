@@ -27,7 +27,7 @@ describe('Blocks Tests', () => {
       .focus()
       .selectFile('cypress/resources/image.png', { force: true });
     cy.wait(5000);
-    cy.get('#toolbar-save').click();
+    cy.get('#toolbar-save').click({ force: true });
     cy.wait(5000);
   });
   afterEach(slateAfterEach);
@@ -51,6 +51,6 @@ describe('Blocks Tests', () => {
     cy.get('.embed-content-static-inner img');
 
     // // Save
-    cy.get('#toolbar-save').click();
+    cy.get('#toolbar-save').click({ force: true });
   });
 });
