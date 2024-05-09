@@ -14,6 +14,7 @@ function View(props) {
     with_more_info = true,
     with_share = true,
     with_enlarge = true,
+    download_button = true,
   } = props.data;
 
   const url = flattenToAppURL(props.data.url || '');
@@ -99,6 +100,7 @@ function View(props) {
           with_more_info,
           with_share,
           with_enlarge,
+          download_button,
         }}
         id={props.id}
       />

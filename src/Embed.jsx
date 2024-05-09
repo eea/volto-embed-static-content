@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
 import { Image } from 'semantic-ui-react';
+
 import cx from 'classnames';
 import {
   FigureNote,
@@ -11,11 +12,13 @@ import {
   Share,
   Enlarge,
 } from '@eeacms/volto-embed/Toolbar';
+import Download from './DownloadData';
 
 function Embed({ data, intl, id, screen }) {
   const el = useRef();
+  const [showDownload, setShowDownload] = useState(false);
   const [mobile, setMobile] = useState(false);
-
+  console.log(data.download_button);
   useEffect(() => {
     if (el.current) {
       const visWidth = el.current.offsetWidth;
@@ -44,8 +47,18 @@ function Embed({ data, intl, id, screen }) {
           'full-width': data.align === 'full',
         })}
       >
-        <Image src={data.preview_image.download} />
+        {data.preview_image.filename.substr(
+          data.preview_image.filename.lastIndexOf('.') + 1,
+        ) === 'svg' ? (
+          <iframe
+            src={data.preview_image.download}
+            title={data.preview_image.filename}
+          />
+        ) : (
+          <Image src={data.preview_image.download} />
+        )}
       </div>
+
       <div className={cx('visualization-toolbar', { mobile })}>
         <div className="left-col">
           {data.with_notes && <FigureNote notes={data.figure_note || []} />}
@@ -56,21 +69,19 @@ function Embed({ data, intl, id, screen }) {
         </div>
         <div className="right-col">
           {data.with_share && <Share href={data['@id']} />}
+          {data.download_button && <Download data={data} />}
           {data.with_enlarge && (
             <Enlarge className="enlarge-embed-embed-content-static">
-              <Embed
-                data={{
-                  ...data,
-                  height: '100%',
-                  with_notes: false,
-                  with_sources: false,
-                  with_more_info: false,
-                  with_share: false,
-                  with_enlarge: false,
-                }}
-                id={id}
-                intl={intl}
-              />
+              {data.preview_image.filename.substr(
+                data.preview_image.filename.lastIndexOf('.') + 1,
+              ) === 'svg' ? (
+                <iframe
+                  src={data.preview_image.download}
+                  title={data.preview_image.filename}
+                />
+              ) : (
+                <Image src={data.preview_image.download} />
+              )}
             </Enlarge>
           )}
         </div>

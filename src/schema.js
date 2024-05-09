@@ -10,7 +10,13 @@ const getSchema = (props) => {
       {
         id: 'toolbar',
         title: 'Toolbar',
-        fields: ['with_notes', 'with_more_info', 'with_share', 'with_enlarge'],
+        fields: [
+          'with_notes',
+          'with_more_info',
+          'with_share',
+          'with_enlarge',
+          'download_button',
+        ],
       },
     ],
     properties: {
@@ -46,6 +52,11 @@ const getSchema = (props) => {
       },
       with_share: {
         title: 'Show share button',
+        type: 'boolean',
+        defaultValue: true,
+      },
+      download_button: {
+        title: 'Toggle download',
         type: 'boolean',
         defaultValue: true,
       },
