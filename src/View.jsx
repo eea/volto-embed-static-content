@@ -102,6 +102,7 @@ function View(props) {
           with_enlarge,
           download_button,
         }}
+        block={props.block}
         id={props.id}
       />
     </div>

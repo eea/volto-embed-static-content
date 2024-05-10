@@ -14,11 +14,12 @@ import {
 } from '@eeacms/volto-embed/Toolbar';
 import Download from './DownloadData';
 
-function Embed({ data, intl, id, screen }) {
+function Embed({ data, intl, id, screen, block }) {
   const el = useRef();
   const [showDownload, setShowDownload] = useState(false);
+  const [svg, setSVG] = useState('');
   const [mobile, setMobile] = useState(false);
-  console.log(data.download_button);
+  console.log(data.preview_image);
   useEffect(() => {
     if (el.current) {
       const visWidth = el.current.offsetWidth;
@@ -30,6 +31,37 @@ function Embed({ data, intl, id, screen }) {
       }
     }
   }, [screen, mobile]);
+
+  useEffect(() => {
+    if (
+      data.preview_image.filename.substr(
+        data.preview_image.filename.lastIndexOf('.') + 1,
+      ) === 'svg'
+    )
+      fetch(data.preview_image.download)
+        .then((res) => {
+          return res.text();
+        })
+        .then((data) => {
+          setSVG(data);
+        });
+  }, [data]);
+
+  useEffect(() => {
+    if (__CLIENT__) {
+      let svg = document.getElementById('embed_svg' + block)?.firstElementChild;
+
+      if (svg) svg.setAttribute('max-width', '100%');
+      let svg2 = document.getElementById(
+        'embed_svg_modal' + block,
+      )?.firstElementChild;
+
+      if (svg2) {
+        svg.setAttribute('max-width', '100%');
+        svg.setAttribute('max-hieght', '100%');
+      }
+    }
+  }, [svg]);
 
   return (
     <div
@@ -50,9 +82,9 @@ function Embed({ data, intl, id, screen }) {
         {data.preview_image.filename.substr(
           data.preview_image.filename.lastIndexOf('.') + 1,
         ) === 'svg' ? (
-          <iframe
-            src={data.preview_image.download}
-            title={data.preview_image.filename}
+          <span
+            id={'embed_svg' + block}
+            dangerouslySetInnerHTML={{ __html: svg }}
           />
         ) : (
           <Image src={data.preview_image.download} />
@@ -75,9 +107,9 @@ function Embed({ data, intl, id, screen }) {
               {data.preview_image.filename.substr(
                 data.preview_image.filename.lastIndexOf('.') + 1,
               ) === 'svg' ? (
-                <iframe
-                  src={data.preview_image.download}
-                  title={data.preview_image.filename}
+                <span
+                  dangerouslySetInnerHTML={{ __html: svg }}
+                  id={'embed_svg_modal' + block}
                 />
               ) : (
                 <Image src={data.preview_image.download} />

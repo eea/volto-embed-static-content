@@ -1,5 +1,7 @@
 .embed-content-static .block.embed-content-static .embed-content-static-inner {
   margin-bottom: 1rem;
+  svg {
+  }
 }
 
 .ui.modal.enlarge-modal.enlarge-embed-embed-content-static {
@@ -9,10 +11,12 @@
     height: 100% !important;
     display: flex;
     justify-content: 'center';
+
     img,
-    iframe {
+    svg {
       object-fit: cover;
       height: 100%;
+      width: 100%;
     }
   }
 
