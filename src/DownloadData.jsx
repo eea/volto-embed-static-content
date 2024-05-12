@@ -17,7 +17,6 @@ export default function Download(props) {
     data,
   } = props;
   const [open, setOpen] = React.useState(false);
-  console.log(core_metadata, url_source, data);
   const handleDownloadData = () => {
     let data_provenance_array = [];
     let other_organisation_array = [];
