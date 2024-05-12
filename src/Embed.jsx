@@ -10,16 +10,14 @@ import {
   Sources,
   MoreInfo,
   Share,
-  Enlarge,
 } from '@eeacms/volto-embed/Toolbar';
 import Download from './DownloadData';
-
+import Enlarge from './Enlarge';
 function Embed({ data, intl, id, screen, block }) {
   const el = useRef();
-  const [showDownload, setShowDownload] = useState(false);
+  const modal = useRef();
   const [svg, setSVG] = useState('');
   const [mobile, setMobile] = useState(false);
-  console.log(data.preview_image);
   useEffect(() => {
     if (el.current) {
       const visWidth = el.current.offsetWidth;
@@ -51,17 +49,29 @@ function Embed({ data, intl, id, screen, block }) {
     if (__CLIENT__) {
       let svg = document.getElementById('embed_svg' + block)?.firstElementChild;
 
-      if (svg) svg.setAttribute('max-width', '100%');
+      if (svg) {
+        svg.setAttribute(
+          'viewBox',
+          `0 0 ${svg.getAttribute('width')} ${svg.getAttribute('height')}`,
+        );
+
+        svg.setAttribute('width', '100%');
+        svg.setAttribute('height', '100%');
+      }
       let svg2 = document.getElementById(
         'embed_svg_modal' + block,
       )?.firstElementChild;
 
       if (svg2) {
-        svg.setAttribute('max-width', '100%');
-        svg.setAttribute('max-hieght', '100%');
+        svg2.setAttribute(
+          'viewBox',
+          `0 0 ${svg.getAttribute('width')} ${svg.getAttribute('height')}`,
+        );
+        svg2.setAttribute('width', modal.current.innerWidth);
+        svg2.setAttribute('height', modal.current.innerHieght);
       }
     }
-  }, [svg]);
+  }, [svg, modal, block]);
 
   return (
     <div
@@ -101,9 +111,18 @@ function Embed({ data, intl, id, screen, block }) {
         </div>
         <div className="right-col">
           {data.with_share && <Share href={data['@id']} />}
-          {data.download_button && <Download data={data} />}
+          {data.download_button && (
+            <Download
+              data={data}
+              coreMetadata={data}
+              url_source={data?.['@id']}
+            />
+          )}
           {data.with_enlarge && (
-            <Enlarge className="enlarge-embed-embed-content-static">
+            <Enlarge
+              className="enlarge-embed-embed-content-static"
+              block={block}
+            >
               {data.preview_image.filename.substr(
                 data.preview_image.filename.lastIndexOf('.') + 1,
               ) === 'svg' ? (

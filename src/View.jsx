@@ -28,6 +28,7 @@ function View(props) {
         publisher: props.embedContent['publisher'],
         description: props.embedContent['description'],
         geo_coverage: props.embedContent['geo_coverage'],
+        temporal_coverage: props.embedContent['temporal_coverage'],
         other_organisations: props.embedContent['other_organisations'],
         data_provenance: props.embedContent['data_provenance'],
         figure_note: props.embedContent['figure_note'],
