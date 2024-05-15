@@ -18,13 +18,13 @@ import aheadSVG from '@plone/volto/icons/ahead.svg';
 import './style.less';
 
 const messages = defineMessages({
-  AttachedImageWidgetInputPlaceholder: {
-    id: 'Browse the site, drop an image, or type an URL',
-    defaultMessage: 'Browse the site, drop an image, or type an URL',
+  FigurePickerPlaceholder: {
+    id: 'Browse the site or type an URL',
+    defaultMessage: 'Browse the site or type an URL',
   },
 });
 
-export class AttachedImageWidget extends Component {
+export class FigurePickerWidget extends Component {
   /**
    * Property types.
    * @property {Object} propTypes Property types.
@@ -102,9 +102,7 @@ export class AttachedImageWidget extends Component {
   render() {
     const placeholder =
       this.props.placeholder ||
-      this.props.intl.formatMessage(
-        messages.AttachedImageWidgetInputPlaceholder,
-      );
+      this.props.intl.formatMessage(messages.FigurePickerPlaceholder);
 
     return (
       <FormFieldWrapper
@@ -196,4 +194,4 @@ export default compose(
       createContent,
     },
   ),
-)(AttachedImageWidget);
+)(FigurePickerWidget);
