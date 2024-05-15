@@ -1,21 +1,15 @@
 import { isEqual } from 'lodash';
-import loadable from '@loadable/component';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { readAsDataURL } from 'promise-file-reader';
 
 import { defineMessages, injectIntl } from 'react-intl';
-import { Dimmer, Loader, Message, Button, Input } from 'semantic-ui-react';
+import { Message, Button, Input } from 'semantic-ui-react';
 import { FormFieldWrapper, Icon } from '@plone/volto/components';
 import withObjectBrowser from '@plone/volto/components/manage/Sidebar/ObjectBrowser';
 import { createContent } from '@plone/volto/actions';
-import {
-  flattenToAppURL,
-  getBaseUrl,
-  isInternalURL,
-} from '@plone/volto/helpers';
+import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 
 import imageBlockSVG from '@plone/volto/components/manage/Blocks/Image/block-image.svg';
 import clearSVG from '@plone/volto/icons/clear.svg';
@@ -23,8 +17,6 @@ import navTreeSVG from '@plone/volto/icons/nav.svg';
 import aheadSVG from '@plone/volto/icons/ahead.svg';
 
 import './style.less';
-
-const Dropzone = loadable(() => import('react-dropzone'));
 
 const messages = defineMessages({
   AttachedImageWidgetInputPlaceholder: {

@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
-import { Message } from 'semantic-ui-react';
 import { getContent } from '@plone/volto/actions';
 import { flattenToAppURL } from '@plone/volto/helpers';
 import { getFigureMetadata } from './utils';
