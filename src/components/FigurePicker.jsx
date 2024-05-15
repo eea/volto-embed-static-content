@@ -121,7 +121,6 @@ export class AttachedImageWidget extends Component {
       this.props.intl.formatMessage(
         messages.AttachedImageWidgetInputPlaceholder,
       );
-    console.log(this.props.errorMessage);
 
     return (
       <FormFieldWrapper
