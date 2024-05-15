@@ -9,7 +9,6 @@ import { Message, Button, Input } from 'semantic-ui-react';
 import { FormFieldWrapper, Icon } from '@plone/volto/components';
 import withObjectBrowser from '@plone/volto/components/manage/Sidebar/ObjectBrowser';
 import { createContent } from '@plone/volto/actions';
-import { flattenToAppURL, isInternalURL } from '@plone/volto/helpers';
 
 import imageBlockSVG from '@plone/volto/components/manage/Blocks/Image/block-image.svg';
 import clearSVG from '@plone/volto/icons/clear.svg';
@@ -24,13 +23,6 @@ const messages = defineMessages({
     defaultMessage: 'Browse the site, drop an image, or type an URL',
   },
 });
-
-const formatURL = (url) => {
-  if (url === undefined) return '';
-  if (typeof url === 'string') return url;
-  if (Array.isArray(url)) return formatURL(url?.[0]);
-  if (typeof url === 'object') return formatURL(url?.['@id']);
-};
 
 export class AttachedImageWidget extends Component {
   /**
@@ -120,36 +112,6 @@ export class AttachedImageWidget extends Component {
         className="field-attached-image"
         {...this.props}
       >
-        {this.props.value && (
-          <div className="preview">
-            <img
-              src={
-                isInternalURL(formatURL(this.props.value))
-                  ? `${flattenToAppURL(
-                      formatURL(this.props.value),
-                    )}/@@images/image/preview`
-                  : formatURL(this.props.value)
-              }
-              alt="Preview"
-            />
-            <Button.Group>
-              <Button
-                basic
-                icon
-                className="cancel"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  this.setState({ url: '' }, () => {
-                    this.props.onSubmitUrl(this.state.url);
-                  });
-                }}
-              >
-                <Icon name={clearSVG} size="30px" />
-              </Button>
-            </Button.Group>
-          </div>
-        )}
-
         <div>
           <Message>
             <div className="no-image-wrapper" style={{ textAlign: 'center' }}>
