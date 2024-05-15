@@ -49,30 +49,6 @@ export class FigurePickerWidget extends Component {
   };
 
   /**
-   * Component will receive props
-   * @method componentWillReceiveProps
-   * @param {Object} nextProps Next properties
-   * @returns {undefined}
-   */
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.request.loading && nextProps.request.loaded) {
-      this.props.onChange(this.props.id, nextProps.content['@id']);
-    }
-  }
-
-  /**
-   * @param {*} nextProps
-   * @returns {boolean}
-   * @memberof Edit
-   */
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      !isEqual(this.props.value, nextProps.value) ||
-      !isEqual(this.state, nextState)
-    );
-  }
-
-  /**
    * Change url handler
    * @method onChangeUrl
    * @param {Object} target Target object

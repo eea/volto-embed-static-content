@@ -76,6 +76,7 @@ function View(props) {
   }, [props.data.with_metadata_section, embedContent, mode]);
 
   if (mode === 'edit' && (!url || embedContent?.error)) {
+    console.log(embedContent?.error);
     return (
       <FigurePicker
         errorMessage={embedContent?.error}
