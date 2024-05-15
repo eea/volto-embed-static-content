@@ -2,13 +2,12 @@ import React from 'react';
 import cx from 'classnames';
 import { Popup } from 'semantic-ui-react';
 import {
-  convertMatrixToCSV,
   convertToCSV,
   exportCSVFile,
   spreadCoreMetadata,
 } from './helpers/csvString';
 import { downloadDataURL } from './helpers';
-import { flattenToAppURL } from '@plone/volto/helpers';
+
 export default function Download(props) {
   const {
     title,
@@ -18,7 +17,6 @@ export default function Download(props) {
     data,
   } = props;
   const [open, setOpen] = React.useState(false);
-  console.log(core_metadata, url_source, data);
   const handleDownloadData = () => {
     let data_provenance_array = [];
     let other_organisation_array = [];
