@@ -1,14 +1,14 @@
 import React, { useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
-import { Message } from 'semantic-ui-react';
 import { getContent } from '@plone/volto/actions';
 import { flattenToAppURL } from '@plone/volto/helpers';
 import { getFigureMetadata } from './utils';
 import { mapKeys } from 'lodash';
 import Embed from './Embed';
+import FigurePicker from './components/FigurePicker';
 
 function View(props) {
-  const { mode } = props;
+  const { mode, onChangeBlock, block } = props;
   const {
     with_notes = true,
     with_more_info = true,
@@ -33,21 +33,17 @@ function View(props) {
         data_provenance: props.embedContent['data_provenance'],
         figure_note: props.embedContent['figure_note'],
       };
-    }
-    return undefined;
-  }, [props.embedContent]);
+    } else if (url)
+      return {
+        error: 'Please select a resource that has a preview image available.',
+      };
+  }, [props.embedContent, url]);
 
   useEffect(() => {
     if (url && !props.data.embedContent) {
       props.getContent(flattenToAppURL(url), null, props.id);
     }
     /* eslint-disable-next-line */
-  }, [url]);
-
-  useEffect(() => {
-    if (url && !props.data.embedContent) {
-      props.getContent(flattenToAppURL(url), null, props.id);
-    } /* eslint-disable-next-line */
   }, [url]);
 
   useEffect(() => {
@@ -79,12 +75,22 @@ function View(props) {
     /* eslint-disable-next-line */
   }, [props.data.with_metadata_section, embedContent, mode]);
 
-  if (mode === 'edit' && !url) {
-    return <Message>Please select content url from block editor.</Message>;
+  if (mode === 'edit' && (!url || embedContent?.error)) {
+    return (
+      <FigurePicker
+        errorMessage={embedContent?.error}
+        onSubmitUrl={(url) => {
+          onChangeBlock(block, {
+            ...props.data,
+            url: url,
+          });
+        }}
+      />
+    );
   }
 
   if (embedContent?.error) {
-    return <p dangerouslySetInnerHTML={{ __html: url.error }} />;
+    return <p>{embedContent?.error}</p>;
   }
 
   if (!embedContent) {

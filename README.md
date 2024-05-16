@@ -19,7 +19,11 @@
 
 ## Features
 
-Demo GIF
+
+https://github.com/eea/volto-embed-static-content/assets/50819975/dfafd551-f8d4-4517-aed5-46be3fb9c8da
+
+This add-on can incorporate pages with preview_images set, primarily utilized for static visualizations within EEA.
+
 
 ## Getting started
 
