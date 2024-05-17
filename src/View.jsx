@@ -20,9 +20,10 @@ function View(props) {
   const url = flattenToAppURL(props.data.url || '');
 
   const embedContent = useMemo(() => {
-    if (props.embedContent?.preview_image) {
+    if (props.embedContent?.image || props.embedContent?.preview_image) {
       return {
-        preview_image: props.embedContent.preview_image,
+        preview_image:
+          props.embedContent?.image || props.embedContent.preview_image,
         '@id': props.embedContent['@id'],
         title: props.embedContent['title'],
         publisher: props.embedContent['publisher'],
@@ -82,7 +83,7 @@ function View(props) {
         onSubmitUrl={(url) => {
           onChangeBlock(block, {
             ...props.data,
-            url: url,
+            url: flattenToAppURL(url || ''),
           });
         }}
       />

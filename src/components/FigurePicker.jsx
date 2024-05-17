@@ -98,7 +98,7 @@ export class FigurePickerWidget extends Component {
                       e.stopPropagation();
                       e.preventDefault();
                       this.props.openObjectBrowser({
-                        mode: 'url',
+                        mode: 'link',
                         currentPath: this.props.pathname,
                         onSelectItem: (url) => {
                           this.setState({ url });
