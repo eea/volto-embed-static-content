@@ -116,6 +116,8 @@ function Embed({ data, intl, id, screen, block }) {
               data={data}
               coreMetadata={data}
               url_source={data?.['@id']}
+              file={data.downloadFile}
+              fileName={data.fileName}
             />
           )}
           {data.with_enlarge && (

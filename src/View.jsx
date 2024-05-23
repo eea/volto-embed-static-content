@@ -22,6 +22,8 @@ function View(props) {
   const embedContent = useMemo(() => {
     if (props.embedContent?.image || props.embedContent?.preview_image) {
       return {
+        downloadFile: props?.embedContent?.file?.download || '',
+        fileName: props?.embedContent?.file?.filename || '',
         preview_image:
           props.embedContent?.image || props.embedContent.preview_image,
         '@id': props.embedContent['@id'],
