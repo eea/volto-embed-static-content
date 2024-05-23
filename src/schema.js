@@ -30,18 +30,18 @@ const getSchema = (props) => {
         defaultValue: true,
       },
       with_notes: {
-        title: 'Show note',
+        title: 'Show note button',
         type: 'boolean',
         defaultValue: true,
       },
       with_sources: {
-        title: 'Show sources',
+        title: 'Show sources button',
         description: 'Will show sources set in this page Data provenance',
         type: 'boolean',
         defaultValue: true,
       },
       with_more_info: {
-        title: 'Show more info',
+        title: 'Show more info button',
         type: 'boolean',
         defaultValue: true,
       },
@@ -56,7 +56,7 @@ const getSchema = (props) => {
         defaultValue: true,
       },
       download_button: {
-        title: 'Toggle download',
+        title: 'Show download button',
         type: 'boolean',
         defaultValue: true,
       },
