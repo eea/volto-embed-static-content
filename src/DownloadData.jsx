@@ -138,20 +138,6 @@ export default function Download(props) {
       content={
         <>
           <div className="item">
-            <span className="label">Data formats</span>
-            <div className="types">
-              <div className="type">
-                <button
-                  onClick={() => {
-                    handleDownloadData();
-                  }}
-                >
-                  <span>CSV</span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="item">
             <span className="label">Image</span>
             <div className="types">
               <div className="type">
