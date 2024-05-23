@@ -13,7 +13,8 @@ import {
 } from '@eeacms/volto-embed/Toolbar';
 import Download from './DownloadData';
 import Enlarge from './Enlarge';
-function Embed({ data, intl, id, screen, block }) {
+
+function Embed({ data, screen, block }) {
   const el = useRef();
   const modal = useRef();
   const [svg, setSVG] = useState('');
@@ -116,6 +117,8 @@ function Embed({ data, intl, id, screen, block }) {
               data={data}
               coreMetadata={data}
               url_source={data?.['@id']}
+              file={data.downloadFile}
+              fileName={data.fileName}
             />
           )}
           {data.with_enlarge && (

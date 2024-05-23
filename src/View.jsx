@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { getContent } from '@plone/volto/actions';
 import { flattenToAppURL } from '@plone/volto/helpers';
-import { getFigureMetadata } from './utils';
+import { getFigureMetadata } from './helpers';
 import { mapKeys } from 'lodash';
 import Embed from './Embed';
 import FigurePicker from './components/FigurePicker';
@@ -22,6 +22,8 @@ function View(props) {
   const embedContent = useMemo(() => {
     if (props.embedContent?.image || props.embedContent?.preview_image) {
       return {
+        downloadFile: props?.embedContent?.file?.download || '',
+        fileName: props?.embedContent?.file?.filename || '',
         preview_image:
           props.embedContent?.image || props.embedContent.preview_image,
         '@id': props.embedContent['@id'],

@@ -16,13 +16,6 @@ export function downloadDataURL(dataURL, filename) {
   a.dispatchEvent(clickEvent);
 }
 
-export function getDataSources(props) {
-  return {
-    ...(props.provider_data || {}),
-    ...(props.data_source || {}),
-  };
-}
-
 export function getFigureMetadata(block, metadata) {
   const { title, description } = metadata || {};
   const id = `figure-metadata-${block}`;
