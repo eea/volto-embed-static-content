@@ -13,6 +13,7 @@ import {
 } from '@eeacms/volto-embed/Toolbar';
 import Download from './DownloadData';
 import Enlarge from './Enlarge';
+
 function Embed({ data, screen, block }) {
   const el = useRef();
   const modal = useRef();
