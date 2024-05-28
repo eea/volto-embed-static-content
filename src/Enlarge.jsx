@@ -21,6 +21,7 @@ const Enlarge = ({ children, className, onClick, ref, block }) => {
         );
 
         svg2.setAttribute('height', modal.clientHeight - 10);
+        svg2.setAttribute('width', '100%');
       }
     }
   }, [block, isOpen]);
