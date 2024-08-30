@@ -51,25 +51,47 @@ function Embed({ data, screen, block }) {
       let svg = document.getElementById('embed_svg' + block)?.firstElementChild;
 
       if (svg) {
-        svg.setAttribute(
-          'viewBox',
-          `0 0 ${svg.getAttribute('width')} ${svg.getAttribute('height')}`,
-        );
+        let width = svg.getAttribute('width');
+        let height = svg.getAttribute('height');
 
-        svg.setAttribute('width', '100%');
-        svg.setAttribute('height', '100%');
+        if (!width || !height) {
+          const viewBox = svg.getAttribute('viewBox');
+          if (viewBox) {
+            const viewBoxValues = viewBox.split(' ');
+            width = viewBoxValues[2]; // width from viewBox
+            height = viewBoxValues[3]; // height from viewBox
+          }
+        }
+
+        if (width && height) {
+          svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+          svg.setAttribute('width', '100%');
+          svg.setAttribute('height', '100%');
+        }
       }
+
       let svg2 = document.getElementById(
         'embed_svg_modal' + block,
       )?.firstElementChild;
 
       if (svg2) {
-        svg2.setAttribute(
-          'viewBox',
-          `0 0 ${svg.getAttribute('width')} ${svg.getAttribute('height')}`,
-        );
-        svg2.setAttribute('width', modal.current.innerWidth);
-        svg2.setAttribute('height', modal.current.innerHieght);
+        let width = svg.getAttribute('width');
+        let height = svg.getAttribute('height');
+
+        if (!width || !height) {
+          const viewBox = svg.getAttribute('viewBox');
+          if (viewBox) {
+            const viewBoxValues = viewBox.split(' ');
+            width = viewBoxValues[2]; // width from viewBox
+            height = viewBoxValues[3]; // height from viewBox
+          }
+        }
+
+        if (width && height) {
+          svg2.setAttribute('viewBox', `0 0 ${width} ${height}`);
+          svg2.setAttribute('width', modal.current.innerWidth);
+          svg2.setAttribute('height', modal.current.innerHeight);
+        }
       }
     }
   }, [svg, modal, block]);
