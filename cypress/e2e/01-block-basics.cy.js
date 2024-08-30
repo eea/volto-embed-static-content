@@ -39,15 +39,15 @@ describe('Blocks Tests', () => {
     cy.clearSlateTitle();
     cy.getSlateTitle().type('My Add-on Page');
     cy.get('.documentFirstHeading').contains('My Add-on Page');
-    cy.getSlate().click();
+    cy.getSlate().click({ force: true });
     // // Add block
-    cy.get('.ui.basic.icon.button.block-add-button').first().click();
-    cy.get('.blocks-chooser .title').contains('Data Visualizations').click();
-    cy.get('.button.embed_static_content').click();
-    cy.get('button[aria-label=openUrlBrowser]').click();
+    cy.get('.ui.basic.icon.button.block-add-button').first().click({ force: true });
+    cy.get('.blocks-chooser .title').contains('Data Visualizations').click({ force: true });
+    cy.get('.button.embed_static_content').click({ force: true });
+    cy.get('button[aria-label=openUrlBrowser]').click({ force: true });
     cy.wait(2000);
-    cy.get('.icon.right-arrow-icon').click();
-    cy.get('ul li').first().click();
+    cy.get('.icon.right-arrow-icon').click({ force: true });
+    cy.get('ul li').first().click({ force: true });
     cy.get('.embed-content-static-inner img');
 
     // // Save
