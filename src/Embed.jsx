@@ -21,7 +21,7 @@ function Embed({ data, screen, block }) {
   const [svg, setSVG] = useState('');
   const [mobile, setMobile] = useState(false);
 
-  const isSvg = getFileExtension(data.preview_image);
+  const isSvg = getFileExtension(data.preview_image) === 'svg';
 
   useEffect(() => {
     if (el.current) {
