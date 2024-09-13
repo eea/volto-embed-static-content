@@ -1,4 +1,8 @@
-import { downloadDataURL, getFigureMetadata, getFileExtension } from './index.js';
+import {
+  downloadDataURL,
+  getFigureMetadata,
+  getFileExtension,
+} from './index.js';
 import { v4 as uuid } from 'uuid';
 
 jest.mock('uuid', () => ({
@@ -9,7 +13,10 @@ describe('helpers.js', () => {
   describe('downloadDataURL', () => {
     it('should trigger a download with the correct filename', () => {
       const createElementSpy = jest.spyOn(document, 'createElement');
-      const dispatchEventSpy = jest.spyOn(HTMLAnchorElement.prototype, 'dispatchEvent');
+      const dispatchEventSpy = jest.spyOn(
+        HTMLAnchorElement.prototype,
+        'dispatchEvent',
+      );
 
       downloadDataURL('data:image/png;base64,test-data', 'test-file.png');
 
