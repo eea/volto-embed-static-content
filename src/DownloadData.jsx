@@ -1,14 +1,14 @@
 import React from 'react';
 import cx from 'classnames';
 import { Popup } from 'semantic-ui-react';
-import { downloadDataURL } from './helpers';
+import { downloadDataURL, getFileExtension } from './helpers';
 
 export default function Download(props) {
   const { file, fileName, data } = props;
   const [open, setOpen] = React.useState(false);
 
   const handleDownloadImage = () => {
-    downloadDataURL(data.preview_image.download, data.preview_image.filename);
+    downloadDataURL(data.preview_image.download, data.preview_image.filename || `download.${getFileExtension(data.preview_image)}`);
 
     setOpen(false);
   };

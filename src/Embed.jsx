@@ -13,12 +13,16 @@ import {
 } from '@eeacms/volto-embed/Toolbar';
 import Download from './DownloadData';
 import Enlarge from './Enlarge';
+import { getFileExtension } from './helpers'
 
 function Embed({ data, screen, block }) {
   const el = useRef();
   const modal = useRef();
   const [svg, setSVG] = useState('');
   const [mobile, setMobile] = useState(false);
+
+  const isSvg = getFileExtension(data.preview_image)
+
   useEffect(() => {
     if (el.current) {
       const visWidth = el.current.offsetWidth;
@@ -32,11 +36,7 @@ function Embed({ data, screen, block }) {
   }, [screen, mobile]);
 
   useEffect(() => {
-    if (
-      data.preview_image.filename.substr(
-        data.preview_image.filename.lastIndexOf('.') + 1,
-      ) === 'svg'
-    )
+    if (isSvg)
       fetch(data.preview_image.download)
         .then((res) => {
           return res.text();
@@ -90,9 +90,7 @@ function Embed({ data, screen, block }) {
           'full-width': data.align === 'full',
         })}
       >
-        {data.preview_image.filename.substr(
-          data.preview_image.filename.lastIndexOf('.') + 1,
-        ) === 'svg' ? (
+        {isSvg ? (
           <span
             id={'embed_svg' + block}
             dangerouslySetInnerHTML={{ __html: svg }}
@@ -126,9 +124,7 @@ function Embed({ data, screen, block }) {
               className="enlarge-embed-embed-content-static"
               block={block}
             >
-              {data.preview_image.filename.substr(
-                data.preview_image.filename.lastIndexOf('.') + 1,
-              ) === 'svg' ? (
+              {isSvg ? (
                 <span
                   dangerouslySetInnerHTML={{ __html: svg }}
                   id={'embed_svg_modal' + block}
