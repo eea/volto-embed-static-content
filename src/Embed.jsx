@@ -51,7 +51,7 @@ function Embed({ data, screen, block }) {
       let svg = document.getElementById('embed_svg' + block)?.firstElementChild;
 
       if (svg) {
-        let width = svg.getAttribute('width');;
+        let width = svg.getAttribute('width');
         let height = svg.getAttribute('height');
 
         if (!width || !height) {
