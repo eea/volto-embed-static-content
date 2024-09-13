@@ -5,76 +5,82 @@ import { downloadDataURL, getFileExtension } from './helpers';
 import '@testing-library/jest-dom/extend-expect';
 
 jest.mock('./helpers', () => ({
-    downloadDataURL: jest.fn(),
-    getFileExtension: jest.fn(() => 'png'),
+  downloadDataURL: jest.fn(),
+  getFileExtension: jest.fn(() => 'png'),
 }));
 
 describe('Download component', () => {
-    const props = {
-        file: 'test-file-url',
-        fileName: 'test-file.csv',
-        data: {
-            preview_image: {
-                download: 'test-image.png',
-                filename: 'test-image.png',
-            },
-        },
-    };
+  const props = {
+    file: 'test-file-url',
+    fileName: 'test-file.csv',
+    data: {
+      preview_image: {
+        download: 'test-image.png',
+        filename: 'test-image.png',
+      },
+    },
+  };
 
-    beforeEach(() => {
-        jest.clearAllMocks();
-    });
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
-    it('renders correctly with the download button', () => {
-        render(<Download {...props} />);
+  it('renders correctly with the download button', () => {
+    render(<Download {...props} />);
 
-        const button = screen.getByText('Download');
-        expect(button).toBeInTheDocument();
-    });
+    const button = screen.getByText('Download');
+    expect(button).toBeInTheDocument();
+  });
 
-    it('opens the popup when the download button is clicked', () => {
-        render(<Download {...props} />);
+  it('opens the popup when the download button is clicked', () => {
+    render(<Download {...props} />);
 
-        const button = screen.getByText('Download');
-        fireEvent.click(button);
+    const button = screen.getByText('Download');
+    fireEvent.click(button);
 
-        expect(screen.getByText('Chart')).toBeInTheDocument();
-    });
+    expect(screen.getByText('Chart')).toBeInTheDocument();
+  });
 
-    it('triggers downloadDataURL for file when File download button is clicked', () => {
-        render(<Download {...props} />);
+  it('triggers downloadDataURL for file when File download button is clicked', () => {
+    render(<Download {...props} />);
 
-        // Click pe butonul de download pentru a deschide popup-ul
-        const button = screen.getByText('Download');
-        fireEvent.click(button);
+    // Click pe butonul de download pentru a deschide popup-ul
+    const button = screen.getByText('Download');
+    fireEvent.click(button);
 
-        const fileButton = screen.getByText('CSV');
-        fireEvent.click(fileButton);
+    const fileButton = screen.getByText('CSV');
+    fireEvent.click(fileButton);
 
-        expect(downloadDataURL).toHaveBeenCalledWith('test-file-url', 'test-file.csv');
-    });
+    expect(downloadDataURL).toHaveBeenCalledWith(
+      'test-file-url',
+      'test-file.csv',
+    );
+  });
 
-    it('triggers downloadDataURL for image when Chart download button is clicked', () => {
-        render(<Download {...props} />);
+  it('triggers downloadDataURL for image when Chart download button is clicked', () => {
+    render(<Download {...props} />);
 
-        const button = screen.getByText('Download');
-        fireEvent.click(button);
-        const imageButton = screen.getByText('PNG');
-        fireEvent.click(imageButton);
+    const button = screen.getByText('Download');
+    fireEvent.click(button);
+    const imageButton = screen.getByText('PNG');
+    fireEvent.click(imageButton);
 
-        expect(downloadDataURL).toHaveBeenCalledWith('test-image.png', 'test-image.png');
-    });
+    expect(downloadDataURL).toHaveBeenCalledWith(
+      'test-image.png',
+      'test-image.png',
+    );
+  });
 
-    it('closes the popup when clicking outside', () => {
-        render(<Download {...props} />);
+  it('closes the popup when clicking outside', () => {
+    render(<Download {...props} />);
 
-        const button = screen.getByText('Download');
-        fireEvent.click(button);
+    const button = screen.getByText('Download');
+    fireEvent.click(button);
 
-        expect(screen.getByText('Chart')).toBeInTheDocument();
+    expect(screen.getByText('Chart')).toBeInTheDocument();
 
-        fireEvent.click(button);
+    fireEvent.click(button);
 
-        expect(screen.queryByText('Chart')).not.toBeInTheDocument();
-    });
+    expect(screen.queryByText('Chart')).not.toBeInTheDocument();
+  });
 });
