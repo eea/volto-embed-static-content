@@ -54,7 +54,7 @@ describe('helpers.js', () => {
               ],
               plaintext: 'Figure 1. Test Title',
             },
-            'mock-uuid': {
+            'mock-uuid1': {
               '@type': 'slate',
               value: [
                 {
@@ -65,7 +65,7 @@ describe('helpers.js', () => {
               plaintext: 'Test Description',
             },
           },
-          blocks_layout: { items: ['mock-uuid', 'mock-uuid'] },
+          blocks_layout: { items: ['mock-uuid', 'mock-uuid1'] },
         },
       });
     });
