@@ -51,15 +51,15 @@ function Embed({ data, screen, block }) {
       let svg = document.getElementById('embed_svg' + block)?.firstElementChild;
 
       if (svg) {
-        let width = svg.getAttribute('width');
-        let height = svg.getAttribute('height');
+        let width = parseFloat(svg.getAttribute('width') || 0);
+        let height = parseFloat(svg.getAttribute('height') || 0);
 
         if (!width || !height) {
           const viewBox = svg.getAttribute('viewBox');
           if (viewBox) {
             const viewBoxValues = viewBox.split(' ');
-            width = viewBoxValues[2]; // width from viewBox
-            height = viewBoxValues[3]; // height from viewBox
+            width = parseFloat(viewBoxValues[2]); // width from viewBox
+            height = parseFloat(viewBoxValues[3]); // height from viewBox
           }
         }
 
@@ -75,15 +75,15 @@ function Embed({ data, screen, block }) {
       )?.firstElementChild;
 
       if (svg2) {
-        let width = svg.getAttribute('width');
-        let height = svg.getAttribute('height');
+        let width = parseFloat(svg.getAttribute('width') || 0);
+        let height = parseFloat(svg.getAttribute('height') || 0);
 
         if (!width || !height) {
           const viewBox = svg.getAttribute('viewBox');
           if (viewBox) {
             const viewBoxValues = viewBox.split(' ');
-            width = viewBoxValues[2]; // width from viewBox
-            height = viewBoxValues[3]; // height from viewBox
+            width = parseFloat(viewBoxValues[2]); // width from viewBox
+            height = parseFloat(viewBoxValues[3]); // height from viewBox
           }
         }
 
