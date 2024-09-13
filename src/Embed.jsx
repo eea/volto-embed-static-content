@@ -58,8 +58,10 @@ function Embed({ data, screen, block }) {
           const viewBox = svg.getAttribute('viewBox');
           if (viewBox) {
             const viewBoxValues = viewBox.split(' ');
-            width = viewBoxValues[2]; // width from viewBox
-            height = viewBoxValues[3]; // height from viewBox
+            if (viewBoxValues.length === 4) {
+              width = viewBoxValues[2]; // width from viewBox
+              height = viewBoxValues[3]; // height from viewBox
+            }
           }
         }
 
@@ -85,8 +87,10 @@ function Embed({ data, screen, block }) {
           const viewBox = svg.getAttribute('viewBox');
           if (viewBox) {
             const viewBoxValues = viewBox.split(' ');
-            width = viewBoxValues[2]; // width from viewBox
-            height = viewBoxValues[3]; // height from viewBox
+            if (viewBoxValues.length === 4) {
+              width = viewBoxValues[2]; // width from viewBox
+              height = viewBoxValues[3]; // height from viewBox
+            }
           }
         }
 
