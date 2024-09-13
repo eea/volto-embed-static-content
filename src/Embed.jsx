@@ -51,20 +51,20 @@ function Embed({ data, screen, block }) {
       let svg = document.getElementById('embed_svg' + block)?.firstElementChild;
 
       if (svg) {
-        let width = parseFloat(svg.getAttribute('width') || 0);
-        let height = parseFloat(svg.getAttribute('height') || 0);
+        let width = svg.getAttribute('width');;
+        let height = svg.getAttribute('height');
 
         if (!width || !height) {
           const viewBox = svg.getAttribute('viewBox');
           if (viewBox) {
             const viewBoxValues = viewBox.split(' ');
-            width = parseFloat(viewBoxValues[2]); // width from viewBox
-            height = parseFloat(viewBoxValues[3]); // height from viewBox
+            width = viewBoxValues[2]; // width from viewBox
+            height = viewBoxValues[3]; // height from viewBox
           }
         }
 
         if (width && height) {
-          svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+          svg.setAttribute('viewBox', `0 0 ${parseFloat(width)} ${parseFloat(height)}`);
           svg.setAttribute('width', '100%');
           svg.setAttribute('height', '100%');
         }
@@ -75,20 +75,20 @@ function Embed({ data, screen, block }) {
       )?.firstElementChild;
 
       if (svg2) {
-        let width = parseFloat(svg.getAttribute('width') || 0);
-        let height = parseFloat(svg.getAttribute('height') || 0);
+        let width = svg.getAttribute('width');
+        let height = svg.getAttribute('height');
 
         if (!width || !height) {
           const viewBox = svg.getAttribute('viewBox');
           if (viewBox) {
             const viewBoxValues = viewBox.split(' ');
-            width = parseFloat(viewBoxValues[2]); // width from viewBox
-            height = parseFloat(viewBoxValues[3]); // height from viewBox
+            width = viewBoxValues[2]; // width from viewBox
+            height = viewBoxValues[3]; // height from viewBox
           }
         }
 
         if (width && height) {
-          svg2.setAttribute('viewBox', `0 0 ${width} ${height}`);
+          svg2.setAttribute('viewBox', `0 0 ${parseFloat(width)} ${parseFloat(height)}`);
           svg2.setAttribute('width', modal.current.innerWidth);
           svg2.setAttribute('height', modal.current.innerHeight);
         }
