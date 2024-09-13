@@ -41,8 +41,12 @@ describe('Blocks Tests', () => {
     cy.get('.documentFirstHeading').contains('My Add-on Page');
     cy.getSlate().click({ force: true });
     // // Add block
-    cy.get('.ui.basic.icon.button.block-add-button').first().click({ force: true });
-    cy.get('.blocks-chooser .title').contains('Data Visualizations').click({ force: true });
+    cy.get('.ui.basic.icon.button.block-add-button')
+      .first()
+      .click({ force: true });
+    cy.get('.blocks-chooser .title')
+      .contains('Data Visualizations')
+      .click({ force: true });
     cy.get('.button.embed_static_content').click({ force: true });
     cy.get('button[aria-label=openUrlBrowser]').click({ force: true });
     cy.wait(2000);
