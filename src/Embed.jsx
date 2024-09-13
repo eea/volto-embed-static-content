@@ -44,7 +44,7 @@ function Embed({ data, screen, block }) {
         .then((data) => {
           setSVG(data);
         });
-  }, [data]);
+  }, [data, isSvg]);
 
   useEffect(() => {
     if (__CLIENT__) {

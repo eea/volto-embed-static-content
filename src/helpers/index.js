@@ -76,6 +76,7 @@ export function getFileExtension(file) {
   }
 
   // Split the content type at the "/" and "+" characters
+  // eslint-disable-next-line
   const parts = contentType.split(/[\/+]/);
 
   // The second part usually contains the file extension or a meaningful identifier
