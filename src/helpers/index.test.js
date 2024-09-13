@@ -5,7 +5,10 @@ import {
 } from './index.js';
 
 jest.mock('uuid', () => ({
-  v4: jest.fn(() => 'mock-uuid'),
+  v4: jest
+    .fn()
+    .mockReturnValueOnce('mock-uuid')
+    .mockReturnValueOnce('mock-uuid1'),
 }));
 
 describe('helpers.js', () => {
@@ -98,7 +101,7 @@ describe('helpers.js', () => {
       expect(result).toBe('png');
     });
 
-    it('should return "unknown" for unrecognized content type', () => {
+    it('should return "type" for unrecognized content type', () => {
       const file = { 'content-type': 'unknown/type' };
       const result = getFileExtension(file);
       expect(result).toBe('type');
