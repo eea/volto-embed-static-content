@@ -68,11 +68,11 @@ export function getFigureMetadata(block, metadata) {
 }
 
 export function getFileExtension(file) {
-  const contentType = file["content-type"]
+  const contentType = file['content-type'];
 
   // Handle special cases
   if (contentType === 'image/svg+xml') {
-      return 'svg';
+    return 'svg';
   }
 
   // Split the content type at the "/" and "+" characters
@@ -80,7 +80,7 @@ export function getFileExtension(file) {
 
   // The second part usually contains the file extension or a meaningful identifier
   if (parts.length > 1) {
-      return parts[1];
+    return parts[1];
   }
 
   // Return 'unknown' if the content type format is not recognized

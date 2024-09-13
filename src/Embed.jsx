@@ -13,7 +13,7 @@ import {
 } from '@eeacms/volto-embed/Toolbar';
 import Download from './DownloadData';
 import Enlarge from './Enlarge';
-import { getFileExtension } from './helpers'
+import { getFileExtension } from './helpers';
 
 function Embed({ data, screen, block }) {
   const el = useRef();
@@ -21,7 +21,7 @@ function Embed({ data, screen, block }) {
   const [svg, setSVG] = useState('');
   const [mobile, setMobile] = useState(false);
 
-  const isSvg = getFileExtension(data.preview_image)
+  const isSvg = getFileExtension(data.preview_image);
 
   useEffect(() => {
     if (el.current) {

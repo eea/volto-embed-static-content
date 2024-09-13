@@ -8,7 +8,11 @@ export default function Download(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleDownloadImage = () => {
-    downloadDataURL(data.preview_image.download, data.preview_image.filename || `download.${getFileExtension(data.preview_image)}`);
+    downloadDataURL(
+      data.preview_image.download,
+      data.preview_image.filename ||
+        `download.${getFileExtension(data.preview_image)}`,
+    );
 
     setOpen(false);
   };
