@@ -13,12 +13,16 @@ import {
 } from '@eeacms/volto-embed/Toolbar';
 import Download from './DownloadData';
 import Enlarge from './Enlarge';
+import { getFileExtension } from './helpers';
 
 function Embed({ data, screen, block }) {
   const el = useRef();
   const modal = useRef();
   const [svg, setSVG] = useState('');
   const [mobile, setMobile] = useState(false);
+
+  const isSvg = getFileExtension(data.preview_image) === 'svg';
+
   useEffect(() => {
     if (el.current) {
       const visWidth = el.current.offsetWidth;
@@ -32,11 +36,7 @@ function Embed({ data, screen, block }) {
   }, [screen, mobile]);
 
   useEffect(() => {
-    if (
-      data.preview_image.filename.substr(
-        data.preview_image.filename.lastIndexOf('.') + 1,
-      ) === 'svg'
-    )
+    if (isSvg)
       fetch(data.preview_image.download)
         .then((res) => {
           return res.text();
@@ -44,32 +44,64 @@ function Embed({ data, screen, block }) {
         .then((data) => {
           setSVG(data);
         });
-  }, [data]);
+  }, [data, isSvg]);
 
   useEffect(() => {
     if (__CLIENT__) {
       let svg = document.getElementById('embed_svg' + block)?.firstElementChild;
 
       if (svg) {
-        svg.setAttribute(
-          'viewBox',
-          `0 0 ${svg.getAttribute('width')} ${svg.getAttribute('height')}`,
-        );
+        let width = svg.getAttribute('width');
+        let height = svg.getAttribute('height');
 
-        svg.setAttribute('width', '100%');
-        svg.setAttribute('height', '100%');
+        if (!width || !height) {
+          const viewBox = svg.getAttribute('viewBox');
+          if (viewBox) {
+            const viewBoxValues = viewBox.split(' ');
+            if (viewBoxValues.length === 4) {
+              width = viewBoxValues[2]; // width from viewBox
+              height = viewBoxValues[3]; // height from viewBox
+            }
+          }
+        }
+
+        if (width && height) {
+          svg.setAttribute(
+            'viewBox',
+            `0 0 ${parseFloat(width)} ${parseFloat(height)}`,
+          );
+          svg.setAttribute('width', '100%');
+          svg.setAttribute('height', '100%');
+        }
       }
+
       let svg2 = document.getElementById(
         'embed_svg_modal' + block,
       )?.firstElementChild;
 
       if (svg2) {
-        svg2.setAttribute(
-          'viewBox',
-          `0 0 ${svg.getAttribute('width')} ${svg.getAttribute('height')}`,
-        );
-        svg2.setAttribute('width', modal.current.innerWidth);
-        svg2.setAttribute('height', modal.current.innerHieght);
+        let width = svg.getAttribute('width');
+        let height = svg.getAttribute('height');
+
+        if (!width || !height) {
+          const viewBox = svg.getAttribute('viewBox');
+          if (viewBox) {
+            const viewBoxValues = viewBox.split(' ');
+            if (viewBoxValues.length === 4) {
+              width = viewBoxValues[2]; // width from viewBox
+              height = viewBoxValues[3]; // height from viewBox
+            }
+          }
+        }
+
+        if (width && height) {
+          svg2.setAttribute(
+            'viewBox',
+            `0 0 ${parseFloat(width)} ${parseFloat(height)}`,
+          );
+          svg2.setAttribute('width', modal.current.innerWidth);
+          svg2.setAttribute('height', modal.current.innerHeight);
+        }
       }
     }
   }, [svg, modal, block]);
@@ -90,9 +122,7 @@ function Embed({ data, screen, block }) {
           'full-width': data.align === 'full',
         })}
       >
-        {data.preview_image.filename.substr(
-          data.preview_image.filename.lastIndexOf('.') + 1,
-        ) === 'svg' ? (
+        {isSvg ? (
           <span
             id={'embed_svg' + block}
             dangerouslySetInnerHTML={{ __html: svg }}
@@ -126,9 +156,7 @@ function Embed({ data, screen, block }) {
               className="enlarge-embed-embed-content-static"
               block={block}
             >
-              {data.preview_image.filename.substr(
-                data.preview_image.filename.lastIndexOf('.') + 1,
-              ) === 'svg' ? (
+              {isSvg ? (
                 <span
                   dangerouslySetInnerHTML={{ __html: svg }}
                   id={'embed_svg_modal' + block}
