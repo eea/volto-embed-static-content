@@ -64,7 +64,10 @@ function Embed({ data, screen, block }) {
         }
 
         if (width && height) {
-          svg.setAttribute('viewBox', `0 0 ${parseFloat(width)} ${parseFloat(height)}`);
+          svg.setAttribute(
+            'viewBox',
+            `0 0 ${parseFloat(width)} ${parseFloat(height)}`,
+          );
           svg.setAttribute('width', '100%');
           svg.setAttribute('height', '100%');
         }
@@ -88,7 +91,10 @@ function Embed({ data, screen, block }) {
         }
 
         if (width && height) {
-          svg2.setAttribute('viewBox', `0 0 ${parseFloat(width)} ${parseFloat(height)}`);
+          svg2.setAttribute(
+            'viewBox',
+            `0 0 ${parseFloat(width)} ${parseFloat(height)}`,
+          );
           svg2.setAttribute('width', modal.current.innerWidth);
           svg2.setAttribute('height', modal.current.innerHeight);
         }
