@@ -61,13 +61,13 @@ export const slateJsonAfterEach = (contentType = 'slate') => {
 };
 
 export const getSelectedSlateEditor = () => {
-  return cy.get('.slate-editor.selected [contenteditable=true]').click({ force: true }));
+  return cy.get('.slate-editor.selected [contenteditable=true]').click({ force: true });
 };
 
 export const createSlateBlock = () => {
-  cy.get('.ui.basic.icon.button.block-add-button').first().click({ force: true }));
-  cy.get('.blocks-chooser .title').contains('Text').click({ force: true }));
-  cy.get('.ui.basic.icon.button.slate').contains('Text').click({ force: true }));
+  cy.get('.ui.basic.icon.button.block-add-button').first().click({ force: true });
+  cy.get('.blocks-chooser .title').contains('Text').click({ force: true });
+  cy.get('.ui.basic.icon.button.slate').contains('Text').click({ force: true });
   return getSelectedSlateEditor();
 };
 
@@ -95,10 +95,10 @@ export const createSlateBlockWithList = ({
   // TODO: do not hardcode these selectors:
   if (numbered) {
     // this is the numbered list option in the hovering toolbar
-    cy.get('.slate-inline-toolbar > :nth-child(9)').click({ force: true }));
+    cy.get('.slate-inline-toolbar > :nth-child(9)').click({ force: true });
   } else {
     // this is the bulleted list option in the hovering toolbar
-    cy.get('.slate-inline-toolbar > :nth-child(10)').click({ force: true }));
+    cy.get('.slate-inline-toolbar > :nth-child(10)').click({ force: true });
   }
 
   // move the text cursor
