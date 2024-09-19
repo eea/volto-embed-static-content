@@ -33,7 +33,7 @@ const Enlarge = ({ children, className, onClick, ref, block }) => {
             'viewBox',
             `0 0 ${parseFloat(width)} ${parseFloat(height)}`,
           );
-          svg2.setAttribute('height', modal.clientHeight - 10);
+          svg2.setAttribute('height', '100%');
           svg2.setAttribute('width', '100%');
         }
       }
