@@ -36,14 +36,14 @@ function Embed({ data, screen, block }) {
   }, [screen, mobile]);
 
   useEffect(() => {
-    if (isSvg)
+    if (isSvg && data?.preview_image?.download) {
       fetch(data.preview_image.download)
-        .then((res) => {
-          return res.text();
-        })
+        .then((res) => res.text())
         .then((data) => {
           setSVG(data);
-        });
+        })
+        .catch((_) => {});
+    }
   }, [data, isSvg]);
 
   useEffect(() => {
