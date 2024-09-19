@@ -13,7 +13,6 @@ const Enlarge = ({ children, className, onClick, ref, block }) => {
       )?.firstElementChild;
 
       if (svg2) {
-        let modal = document.getElementsByClassName('enlarge-modal')?.[0];
         let width = svg2.getAttribute('width');
         let height = svg2.getAttribute('height');
 
