@@ -13,18 +13,32 @@ const Enlarge = ({ children, className, onClick, ref, block }) => {
       )?.firstElementChild;
 
       if (svg2) {
-        let modal = document.getElementsByClassName('enlarge-modal')?.[0];
+        let width = svg2.getAttribute('width');
+        let height = svg2.getAttribute('height');
 
-        svg2.setAttribute(
-          'viewBox',
-          `0 0 ${svg2.getAttribute('width')} ${svg2.getAttribute('height')}`,
-        );
+        if (!width || !height) {
+          const viewBox = svg2.getAttribute('viewBox');
+          if (viewBox) {
+            const viewBoxValues = viewBox.split(' ');
+            if (viewBoxValues.length === 4) {
+              width = viewBoxValues[2]; // width from viewBox
+              height = viewBoxValues[3]; // height from viewBox
+            }
+          }
+        }
 
-        svg2.setAttribute('height', modal.clientHeight - 10);
-        svg2.setAttribute('width', '100%');
+        if (width && height) {
+          svg2.setAttribute(
+            'viewBox',
+            `0 0 ${parseFloat(width)} ${parseFloat(height)}`,
+          );
+          svg2.setAttribute('height', '100%');
+          svg2.setAttribute('width', '100%');
+        }
       }
     }
   }, [block, isOpen]);
+
   return (
     <div className="enlarge">
       <button
