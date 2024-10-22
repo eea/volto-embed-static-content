@@ -40,71 +40,13 @@ function Embed({ data, screen, block }) {
       fetch(data.preview_image.download)
         .then((res) => res.text())
         .then((data) => {
-          setSVG(data);
+          const svgBlob = new Blob([data], { type: 'image/svg+xml' });
+          const svgUrl = URL.createObjectURL(svgBlob);
+          setSVG(svgUrl);
         })
         .catch((_) => {});
     }
   }, [data, isSvg]);
-
-  useEffect(() => {
-    if (__CLIENT__) {
-      let svg = document.getElementById('embed_svg' + block)?.firstElementChild;
-
-      if (svg) {
-        let width = svg.getAttribute('width');
-        let height = svg.getAttribute('height');
-
-        if (!width || !height) {
-          const viewBox = svg.getAttribute('viewBox');
-          if (viewBox) {
-            const viewBoxValues = viewBox.split(' ');
-            if (viewBoxValues.length === 4) {
-              width = viewBoxValues[2]; // width from viewBox
-              height = viewBoxValues[3]; // height from viewBox
-            }
-          }
-        }
-
-        if (width && height) {
-          svg.setAttribute(
-            'viewBox',
-            `0 0 ${parseFloat(width)} ${parseFloat(height)}`,
-          );
-          svg.setAttribute('width', '100%');
-          svg.setAttribute('height', '100%');
-        }
-      }
-
-      let svg2 = document.getElementById(
-        'embed_svg_modal' + block,
-      )?.firstElementChild;
-
-      if (svg2) {
-        let width = svg.getAttribute('width');
-        let height = svg.getAttribute('height');
-
-        if (!width || !height) {
-          const viewBox = svg.getAttribute('viewBox');
-          if (viewBox) {
-            const viewBoxValues = viewBox.split(' ');
-            if (viewBoxValues.length === 4) {
-              width = viewBoxValues[2]; // width from viewBox
-              height = viewBoxValues[3]; // height from viewBox
-            }
-          }
-        }
-
-        if (width && height) {
-          svg2.setAttribute(
-            'viewBox',
-            `0 0 ${parseFloat(width)} ${parseFloat(height)}`,
-          );
-          svg2.setAttribute('width', modal.current.innerWidth);
-          svg2.setAttribute('height', modal.current.innerHeight);
-        }
-      }
-    }
-  }, [svg, modal, block]);
 
   return (
     <div
@@ -123,9 +65,12 @@ function Embed({ data, screen, block }) {
         })}
       >
         {isSvg ? (
-          <span
-            id={'embed_svg' + block}
-            dangerouslySetInnerHTML={{ __html: svg }}
+          <iframe
+            id={'embed_svg_iframe' + block}
+            src={svg}
+            width="100%"
+            height="100%"
+            frameBorder="0"
           />
         ) : (
           <Image src={data.preview_image.download} />
@@ -157,9 +102,12 @@ function Embed({ data, screen, block }) {
               block={block}
             >
               {isSvg ? (
-                <span
-                  dangerouslySetInnerHTML={{ __html: svg }}
-                  id={'embed_svg_modal' + block}
+                <iframe
+                  id={'embed_svg_modal_iframe' + block}
+                  src={svg}
+                  width="100%"
+                  height="100%"
+                  frameBorder="0"
                 />
               ) : (
                 <Image src={data.preview_image.download} />
