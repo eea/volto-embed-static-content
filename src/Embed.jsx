@@ -35,19 +35,6 @@ function Embed({ data, screen, block }) {
     }
   }, [screen, mobile]);
 
-  useEffect(() => {
-    if (isSvg && data?.preview_image?.download) {
-      fetch(data.preview_image.download)
-        .then((res) => res.text())
-        .then((data) => {
-          const svgBlob = new Blob([data], { type: 'image/svg+xml' });
-          const svgUrl = URL.createObjectURL(svgBlob);
-          setSVG(svgUrl);
-        })
-        .catch((_) => {});
-    }
-  }, [data, isSvg]);
-
   return (
     <div
       ref={el}
@@ -64,17 +51,7 @@ function Embed({ data, screen, block }) {
           'full-width': data.align === 'full',
         })}
       >
-        {isSvg ? (
-          <iframe
-            id={'embed_svg_iframe' + block}
-            src={svg}
-            width="100%"
-            height="100%"
-            frameBorder="0"
-          />
-        ) : (
-          <Image src={data.preview_image.download} />
-        )}
+        <Image src={data.preview_image.download} />
       </div>
 
       <div className={cx('visualization-toolbar', { mobile })}>
@@ -101,17 +78,12 @@ function Embed({ data, screen, block }) {
               className="enlarge-embed-embed-content-static"
               block={block}
             >
-              {isSvg ? (
-                <iframe
-                  id={'embed_svg_modal_iframe' + block}
-                  src={svg}
-                  width="100%"
-                  height="100%"
-                  frameBorder="0"
-                />
-              ) : (
-                <Image src={data.preview_image.download} />
-              )}
+              <Image
+                src={data.preview_image.download}
+                style={{
+                  objectFit: 'contain',
+                }}
+              />
             </Enlarge>
           )}
         </div>
