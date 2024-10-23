@@ -36,7 +36,7 @@ function Embed(props) {
             (f) => f !== 'safe_load_img',
           ),
         },
-        ...props?.modifiedSchema?.fieldsets?.slice(1),
+        ...(props?.modifiedSchema?.fieldsets?.slice(1) || []),
       ],
     });
   }
@@ -56,7 +56,7 @@ function Embed(props) {
             'safe_load_img',
           ],
         },
-        ...props?.modifiedSchema?.fieldsets?.slice(1),
+        ...(props?.modifiedSchema?.fieldsets?.slice(1) || []),
       ],
     });
   }
