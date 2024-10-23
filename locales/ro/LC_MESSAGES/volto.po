@@ -11,4 +11,7 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-
+#. Default: "Browse the site or type an URL"
+#: components/FigurePicker
+msgid "Browse the site or type an URL"
+msgstr ""

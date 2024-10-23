@@ -15,6 +15,7 @@ function View(props) {
     with_share = true,
     with_enlarge = true,
     download_button = true,
+    svg_as_img,
   } = props.data;
 
   const url = flattenToAppURL(props.data.url || '');
@@ -103,6 +104,7 @@ function View(props) {
   return (
     <div className="embed-content-static">
       <Embed
+        {...props}
         data={{
           ...embedContent,
           with_notes,
@@ -111,6 +113,7 @@ function View(props) {
           with_share,
           with_enlarge,
           download_button,
+          svg_as_img,
         }}
         block={props.block}
         id={props.id}
