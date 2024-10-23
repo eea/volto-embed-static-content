@@ -25,7 +25,7 @@ function Embed(props) {
   const isSvg = getFileExtension(data.preview_image) === 'svg';
   if (
     !isSvg &&
-    props?.modifiedSchema?.fieldsets?.[0]?.fields?.includes('safe_load_img')
+    props?.modifiedSchema?.fieldsets?.[0]?.fields?.includes('svg_as_img')
   ) {
     props.setModifiedSchema({
       ...props.modifiedSchema,
@@ -33,7 +33,7 @@ function Embed(props) {
         {
           ...props.modifiedSchema?.fieldsets?.[0],
           fields: (props.modifiedSchema?.fieldsets?.[0]?.fields || [])?.filter(
-            (f) => f !== 'safe_load_img',
+            (f) => f !== 'svg_as_img',
           ),
         },
         ...(props?.modifiedSchema?.fieldsets?.slice(1) || []),
@@ -44,7 +44,7 @@ function Embed(props) {
   if (
     isSvg &&
     props?.modifiedSchema &&
-    !props?.modifiedSchema?.fieldsets?.[0]?.fields?.includes('safe_load_img')
+    !props?.modifiedSchema?.fieldsets?.[0]?.fields?.includes('svg_as_img')
   ) {
     props.setModifiedSchema({
       ...props.modifiedSchema,
@@ -53,7 +53,7 @@ function Embed(props) {
           ...props.modifiedSchema.fieldsets?.[0],
           fields: [
             ...(props.modifiedSchema.fieldsets?.[0]?.fields || []),
-            'safe_load_img',
+            'svg_as_img',
           ],
         },
         ...(props?.modifiedSchema?.fieldsets?.slice(1) || []),
@@ -159,13 +159,13 @@ function Embed(props) {
           'full-width': data.align === 'full',
         })}
       >
-        {isSvg && data.safe_load_img === false ? (
+        {isSvg && data.svg_as_img ? (
+          <Image src={data.preview_image.download} />
+        ) : (
           <span
             id={'embed_svg' + block}
             dangerouslySetInnerHTML={{ __html: svg }}
           />
-        ) : (
-          <Image src={data.preview_image.download} />
         )}
       </div>
 
@@ -193,15 +193,15 @@ function Embed(props) {
               className="enlarge-embed-embed-content-static"
               block={block}
             >
-              {isSvg && data.safe_load_img === false ? (
-                <span
-                  dangerouslySetInnerHTML={{ __html: svg }}
-                  id={'embed_svg_modal' + block}
-                />
-              ) : (
+              {isSvg && data.svg_as_img ? (
                 <Image
                   src={data.preview_image.download}
                   className="enlarge-embed-static-content"
+                />
+              ) : (
+                <span
+                  dangerouslySetInnerHTML={{ __html: svg }}
+                  id={'embed_svg_modal' + block}
                 />
               )}
             </Enlarge>
