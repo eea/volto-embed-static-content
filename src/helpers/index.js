@@ -68,6 +68,7 @@ export function getFigureMetadata(block, metadata) {
 }
 
 export function getFileExtension(file) {
+  if (!file) return '';
   const contentType = file['content-type'];
 
   // Handle special cases
