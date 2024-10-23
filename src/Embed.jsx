@@ -15,14 +15,51 @@ import Download from './DownloadData';
 import Enlarge from './Enlarge';
 import { getFileExtension } from './helpers';
 
-function Embed({ data, screen, block }) {
+function Embed(props) {
+  const { data, screen, block } = props;
   const el = useRef();
   const modal = useRef();
   const [svg, setSVG] = useState('');
   const [mobile, setMobile] = useState(false);
-  console.log(data);
-  const isSvg = getFileExtension(data.preview_image) === 'svg';
 
+  const isSvg = getFileExtension(data.preview_image) === 'svg';
+  if (
+    !isSvg &&
+    props?.modifiedSchema?.fieldsets?.[0]?.fields?.includes('safe_load_img')
+  ) {
+    props.setModifiedSchema({
+      ...props.modifiedSchema,
+      fieldsets: [
+        {
+          ...props.modifiedSchema?.fieldsets?.[0],
+          fields: (props.modifiedSchema?.fieldsets?.[0]?.fields || [])?.filter(
+            (f) => f !== 'safe_load_img',
+          ),
+        },
+        ...props?.modifiedSchema?.fieldsets?.slice(1),
+      ],
+    });
+  }
+
+  if (
+    isSvg &&
+    props?.modifiedSchema &&
+    !props?.modifiedSchema?.fieldsets?.[0]?.fields?.includes('safe_load_img')
+  ) {
+    props.setModifiedSchema({
+      ...props.modifiedSchema,
+      fieldsets: [
+        {
+          ...props.modifiedSchema.fieldsets?.[0],
+          fields: [
+            ...(props.modifiedSchema.fieldsets?.[0]?.fields || []),
+            'safe_load_img',
+          ],
+        },
+        ...props?.modifiedSchema?.fieldsets?.slice(1),
+      ],
+    });
+  }
   useEffect(() => {
     if (isSvg && data?.preview_image?.download) {
       fetch(data.preview_image.download)
