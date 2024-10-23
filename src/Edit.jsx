@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
 import BlockDataForm from '@plone/volto/components/manage/Form/BlockDataForm';
@@ -10,14 +10,19 @@ import './styles.less';
 const Edit = (props) => {
   const { block, data, selected, onChangeBlock } = props;
   const schema = React.useMemo(() => getSchema(props), [props]);
-
+  const [modifiedSchema, setModifiedSchema] = useState(schema);
   return (
     <React.Fragment>
-      <View {...props} mode="edit" />
+      <View
+        {...props}
+        mode="edit"
+        modifiedSchema={modifiedSchema}
+        setModifiedSchema={setModifiedSchema}
+      />
       <SidebarPortal selected={selected}>
         <BlockDataForm
           block={block}
-          schema={schema}
+          schema={modifiedSchema}
           title={schema.title}
           onChangeField={(id, value) => {
             onChangeBlock(block, {
