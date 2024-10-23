@@ -5,7 +5,7 @@ const getSchema = (props) => {
       {
         id: 'default',
         title: 'Default',
-        fields: ['url', 'with_metadata_section'],
+        fields: ['url', 'with_metadata_section', 'safe_load_img'],
       },
       {
         id: 'toolbar',
@@ -23,6 +23,11 @@ const getSchema = (props) => {
       url: {
         title: 'URL',
         widget: 'internal_url',
+      },
+      safe_load_img: {
+        title: 'Save load as image',
+        type: 'boolean',
+        defaultValue: true,
       },
       with_metadata_section: {
         title: 'Show metadata section',
