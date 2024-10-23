@@ -20,8 +20,79 @@ function Embed({ data, screen, block }) {
   const modal = useRef();
   const [svg, setSVG] = useState('');
   const [mobile, setMobile] = useState(false);
-
+  console.log(data);
   const isSvg = getFileExtension(data.preview_image) === 'svg';
+
+  useEffect(() => {
+    if (isSvg && data?.preview_image?.download) {
+      fetch(data.preview_image.download)
+        .then((res) => res.text())
+        .then((data) => {
+          setSVG(data);
+        })
+        .catch((_) => {});
+    }
+  }, [data, isSvg]);
+
+  useEffect(() => {
+    if (__CLIENT__) {
+      let svg = document.getElementById('embed_svg' + block)?.firstElementChild;
+
+      if (svg) {
+        let width = svg.getAttribute('width');
+        let height = svg.getAttribute('height');
+
+        if (!width || !height) {
+          const viewBox = svg.getAttribute('viewBox');
+          if (viewBox) {
+            const viewBoxValues = viewBox.split(' ');
+            if (viewBoxValues.length === 4) {
+              width = viewBoxValues[2]; // width from viewBox
+              height = viewBoxValues[3]; // height from viewBox
+            }
+          }
+        }
+
+        if (width && height) {
+          svg.setAttribute(
+            'viewBox',
+            `0 0 ${parseFloat(width)} ${parseFloat(height)}`,
+          );
+          svg.setAttribute('width', '100%');
+          svg.setAttribute('height', '100%');
+        }
+      }
+
+      let svg2 = document.getElementById(
+        'embed_svg_modal' + block,
+      )?.firstElementChild;
+
+      if (svg2) {
+        let width = svg.getAttribute('width');
+        let height = svg.getAttribute('height');
+
+        if (!width || !height) {
+          const viewBox = svg.getAttribute('viewBox');
+          if (viewBox) {
+            const viewBoxValues = viewBox.split(' ');
+            if (viewBoxValues.length === 4) {
+              width = viewBoxValues[2]; // width from viewBox
+              height = viewBoxValues[3]; // height from viewBox
+            }
+          }
+        }
+
+        if (width && height) {
+          svg2.setAttribute(
+            'viewBox',
+            `0 0 ${parseFloat(width)} ${parseFloat(height)}`,
+          );
+          svg2.setAttribute('width', modal.current.innerWidth);
+          svg2.setAttribute('height', modal.current.innerHeight);
+        }
+      }
+    }
+  }, [svg, modal, block]);
 
   useEffect(() => {
     if (el.current) {
@@ -51,7 +122,14 @@ function Embed({ data, screen, block }) {
           'full-width': data.align === 'full',
         })}
       >
-        <Image src={data.preview_image.download} />
+        {isSvg && data.safe_load_img === false ? (
+          <span
+            id={'embed_svg' + block}
+            dangerouslySetInnerHTML={{ __html: svg }}
+          />
+        ) : (
+          <Image src={data.preview_image.download} />
+        )}
       </div>
 
       <div className={cx('visualization-toolbar', { mobile })}>
@@ -78,12 +156,17 @@ function Embed({ data, screen, block }) {
               className="enlarge-embed-embed-content-static"
               block={block}
             >
-              <Image
-                src={data.preview_image.download}
-                style={{
-                  objectFit: 'contain',
-                }}
-              />
+              {isSvg && data.safe_load_img === false ? (
+                <span
+                  dangerouslySetInnerHTML={{ __html: svg }}
+                  id={'embed_svg_modal' + block}
+                />
+              ) : (
+                <Image
+                  src={data.preview_image.download}
+                  className="enlarge-embed-static-content"
+                />
+              )}
             </Enlarge>
           )}
         </div>
