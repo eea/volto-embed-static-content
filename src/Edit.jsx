@@ -6,9 +6,11 @@ import { SidebarPortal } from '@plone/volto/components';
 import View from './View';
 import getSchema from './schema';
 import './styles.less';
+
 const Edit = (props) => {
   const { block, data, selected, onChangeBlock } = props;
   const schema = React.useMemo(() => getSchema(props), [props]);
+  
   return (
     <React.Fragment>
       <View {...props} mode="edit" />
