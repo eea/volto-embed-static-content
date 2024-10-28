@@ -10,13 +10,12 @@ import './styles.less';
 const Edit = (props) => {
   const { block, data, selected, onChangeBlock } = props;
   const schema = React.useMemo(() => getSchema(props), [props]);
-  const [modifiedSchema, setModifiedSchema] = useState(schema);
   return (
     <React.Fragment>
       <View
         {...props}
         mode="edit"
-        modifiedSchema={modifiedSchema}
+        modifiedSchema={schema}
         setModifiedSchema={setModifiedSchema}
       />
       <SidebarPortal selected={selected}>
