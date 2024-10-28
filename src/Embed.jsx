@@ -22,7 +22,7 @@ function Embed(props) {
   const [svg, setSVG] = useState('');
   const [mobile, setMobile] = useState(false);
   const isSvg = getFileExtension(data.preview_image) === 'svg';
-  
+
   useEffect(() => {
     if (isSvg && data?.preview_image?.download) {
       fetch(data.preview_image.download)

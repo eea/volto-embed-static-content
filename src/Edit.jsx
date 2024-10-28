@@ -10,7 +10,7 @@ import './styles.less';
 const Edit = (props) => {
   const { block, data, selected, onChangeBlock } = props;
   const schema = React.useMemo(() => getSchema(props), [props]);
-  
+
   return (
     <React.Fragment>
       <View {...props} mode="edit" />
