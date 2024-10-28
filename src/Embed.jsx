@@ -122,7 +122,7 @@ function Embed(props) {
           'full-width': data.align === 'full',
         })}
       >
-        {isSvg && data.svg_as_img ? (
+        {(isSvg && data.svg_as_img) || !isSvg ? (
           <Image src={data.preview_image.download} />
         ) : (
           <span
@@ -156,7 +156,7 @@ function Embed(props) {
               className="enlarge-embed-embed-content-static"
               block={block}
             >
-              {isSvg && data.svg_as_img ? (
+              {(isSvg && data.svg_as_img) || !isSvg ? (
                 <Image
                   src={data.preview_image.download}
                   className="enlarge-embed-static-content"
