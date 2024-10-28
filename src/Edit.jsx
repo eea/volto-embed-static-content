@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { compose } from 'redux';
 import { injectIntl } from 'react-intl';
 import BlockDataForm from '@plone/volto/components/manage/Form/BlockDataForm';
@@ -21,7 +21,7 @@ const Edit = (props) => {
       <SidebarPortal selected={selected}>
         <BlockDataForm
           block={block}
-          schema={modifiedSchema}
+          schema={schema}
           title={schema.title}
           onChangeField={(id, value) => {
             onChangeBlock(block, {
