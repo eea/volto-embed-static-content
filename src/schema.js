@@ -1,3 +1,5 @@
+import { getFileExtension } from './helpers';
+
 const getSchema = (props) => {
   return {
     title: 'Embed static content',
@@ -5,7 +7,15 @@ const getSchema = (props) => {
       {
         id: 'default',
         title: 'Default',
-        fields: ['url', 'with_metadata_section', 'svg_as_img'],
+        fields:
+          getFileExtension(
+            props?.data?.properties?.image_scales[
+              Object.keys(props?.data?.properties?.image_scales || {})?.[0] ||
+                ''
+            ]?.[0],
+          ) === 'svg'
+            ? ['url', 'with_metadata_section', 'svg_as_img']
+            : ['url', 'with_metadata_section'],
       },
       {
         id: 'toolbar',
