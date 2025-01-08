@@ -15,25 +15,13 @@ import Download from './DownloadData';
 import Enlarge from './Enlarge';
 import { getFileExtension } from './helpers';
 
-function Embed({ data, screen, block }) {
+function Embed(props) {
+  const { data, screen, block } = props;
   const el = useRef();
   const modal = useRef();
   const [svg, setSVG] = useState('');
   const [mobile, setMobile] = useState(false);
-
   const isSvg = getFileExtension(data.preview_image) === 'svg';
-
-  useEffect(() => {
-    if (el.current) {
-      const visWidth = el.current.offsetWidth;
-
-      if (visWidth < 600 && !mobile) {
-        setMobile(true);
-      } else if (visWidth >= 600 && mobile) {
-        setMobile(false);
-      }
-    }
-  }, [screen, mobile]);
 
   useEffect(() => {
     if (isSvg && data?.preview_image?.download) {
@@ -106,6 +94,18 @@ function Embed({ data, screen, block }) {
     }
   }, [svg, modal, block]);
 
+  useEffect(() => {
+    if (el.current) {
+      const visWidth = el.current.offsetWidth;
+
+      if (visWidth < 600 && !mobile) {
+        setMobile(true);
+      } else if (visWidth >= 600 && mobile) {
+        setMobile(false);
+      }
+    }
+  }, [screen, mobile]);
+
   return (
     <div
       ref={el}
@@ -122,13 +122,13 @@ function Embed({ data, screen, block }) {
           'full-width': data.align === 'full',
         })}
       >
-        {isSvg ? (
+        {(isSvg && data.svg_as_img) || !isSvg ? (
+          <Image src={data.preview_image.download} />
+        ) : (
           <span
             id={'embed_svg' + block}
             dangerouslySetInnerHTML={{ __html: svg }}
           />
-        ) : (
-          <Image src={data.preview_image.download} />
         )}
       </div>
 
@@ -156,13 +156,16 @@ function Embed({ data, screen, block }) {
               className="enlarge-embed-embed-content-static"
               block={block}
             >
-              {isSvg ? (
+              {(isSvg && data.svg_as_img) || !isSvg ? (
+                <Image
+                  src={data.preview_image.download}
+                  className="enlarge-embed-static-content"
+                />
+              ) : (
                 <span
                   dangerouslySetInnerHTML={{ __html: svg }}
                   id={'embed_svg_modal' + block}
                 />
-              ) : (
-                <Image src={data.preview_image.download} />
               )}
             </Enlarge>
           )}

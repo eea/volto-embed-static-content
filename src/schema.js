@@ -5,7 +5,7 @@ const getSchema = (props) => {
       {
         id: 'default',
         title: 'Default',
-        fields: ['url', 'with_metadata_section'],
+        fields: ['url', 'with_metadata_section', 'svg_as_img'],
       },
       {
         id: 'toolbar',
@@ -23,6 +23,10 @@ const getSchema = (props) => {
       url: {
         title: 'URL',
         widget: 'internal_url',
+      },
+      svg_as_img: {
+        title: 'Render SVG as image',
+        type: 'boolean',
       },
       with_metadata_section: {
         title: 'Show metadata section',
