@@ -51,7 +51,7 @@ describe('helpers.js', () => {
               '@type': 'slate',
               value: [
                 {
-                  type: 'h4',
+                  type: 'h3-light',
                   children: [{ text: 'Figure 1. Test Title' }],
                 },
               ],
