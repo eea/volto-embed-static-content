@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
 import { getContent } from '@plone/volto/actions';
 import { flattenToAppURL } from '@plone/volto/helpers';
-import { getFigureMetadata } from './helpers';
+import { getFigureMetadata, getFigurePosition } from './helpers';
 import { mapKeys } from 'lodash';
 import Embed from './Embed';
 import FigurePicker from './components/FigurePicker';
@@ -68,10 +68,18 @@ function View(props) {
       return;
     }
     if (embedContent) {
-      const metadataSection = getFigureMetadata(props.block, {
-        title: embedContent.title,
-        description: embedContent.description,
-      });
+      const position = getFigurePosition(
+        props.metadata || props.properties,
+        props.block,
+      );
+      const metadataSection = getFigureMetadata(
+        props.block,
+        {
+          title: embedContent.title,
+          description: embedContent.description,
+        },
+        position,
+      );
       if (!metadataSection) return;
 
       props.onInsertBlock(props.block, metadataSection);
