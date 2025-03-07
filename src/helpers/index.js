@@ -49,7 +49,7 @@ export function getFigureMetadata(block, metadata) {
   }
 
   const blocks = [
-    ...(title ? [getBlock('h4', `Figure 1. ${title}`)] : []),
+    ...(title ? [getBlock('h3-light', `Figure 1. ${title}`)] : []),
     ...(description ? [getBlock('p', description)] : []),
   ];
 
