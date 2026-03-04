@@ -6,7 +6,7 @@ pipeline {
   environment {
     GIT_NAME = "volto-embed-static-content"
     NAMESPACE = "@eeacms"
-    SONARQUBE_TAGS = "volto.eea.europa.eu,demo-www.eea.europa.eu,www.eea.europa.eu-en,insitu.copernicus.eu,climate-adapt.eea.europa.eu"
+    SONARQUBE_TAGS = "volto.eea.europa.eu,demo-www.eea.europa.eu,www.eea.europa.eu-en,www.eea.europa.eu,insitu.copernicus.eu,climate-adapt.eea.europa.eu"
     DEPENDENCIES = ""
     BACKEND_PROFILES = "eea.kitkat:testing"
     BACKEND_ADDONS = ""
