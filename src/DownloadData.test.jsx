@@ -2,7 +2,7 @@ import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import Download from './DownloadData';
 import { downloadDataURL } from './helpers';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 
 jest.mock('./helpers', () => ({
   downloadDataURL: jest.fn(),
