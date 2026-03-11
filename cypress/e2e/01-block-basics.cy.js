@@ -23,9 +23,17 @@ describe('Blocks Tests', () => {
     cy.visit('/cypress/static-content-preview-image');
     cy.waitForResourceToLoad('static-content-preview-image');
     cy.navigate('/cypress/static-content-preview-image/edit');
-    cy.get('#field-preview_image')
-      .focus()
-      .selectFile('cypress/resources/image.png', { force: true });
+    cy.get('body').then(($body) => {
+      const previewImageField = $body.find('#field-preview_image');
+      const imageField = $body.find('#field-image');
+      const selector = previewImageField.length
+        ? '#field-preview_image'
+        : '#field-image';
+
+      cy.get(selector)
+        .focus()
+        .selectFile('cypress/resources/image.png', { force: true });
+    });
     cy.wait(5000);
     cy.get('#toolbar-save').click({ force: true });
     cy.wait(5000);
