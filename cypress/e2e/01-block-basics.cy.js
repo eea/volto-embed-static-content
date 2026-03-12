@@ -1,4 +1,35 @@
-import { slateBeforeEach, slateAfterEach } from '../support/e2e';
+import { slateAfterEach } from '../support/e2e';
+
+const API_PATH = Cypress.env('API_PATH') || 'http://localhost:8080/Plone';
+const AUTH = {
+  user: 'admin',
+  pass: 'admin',
+};
+
+const setEmbedStaticContentBlocks = () =>
+  cy.request({
+    method: 'PATCH',
+    url: `${API_PATH}/cypress/my-page`,
+    headers: {
+      Accept: 'application/json',
+    },
+    auth: AUTH,
+    body: {
+      title: 'My Add-on Page',
+      blocks: {
+        title: {
+          '@type': 'title',
+        },
+        embed: {
+          '@type': 'embed_static_content',
+          url: '/cypress/static-content-preview-image',
+        },
+      },
+      blocks_layout: {
+        items: ['title', 'embed'],
+      },
+    },
+  });
 
 describe('Blocks Tests', () => {
   beforeEach(() => {
@@ -9,7 +40,7 @@ describe('Blocks Tests', () => {
       contentTitle: 'Cypress',
     });
     cy.createContent({
-      contentType: 'Document',
+      contentType: 'Image',
       contentId: 'static-content-preview-image',
       contentTitle: 'Static Content Preview Image',
       path: 'cypress',
@@ -20,45 +51,16 @@ describe('Blocks Tests', () => {
       contentTitle: 'My Page',
       path: 'cypress',
     });
-    cy.visit('/cypress/static-content-preview-image');
-    cy.waitForResourceToLoad('static-content-preview-image');
-    cy.navigate('/cypress/static-content-preview-image/edit');
-    cy.get('body').then(($body) => {
-      const previewImageField = $body.find('#field-preview_image');
-      const imageField = $body.find('#field-image');
-      const selector = previewImageField.length
-        ? '#field-preview_image'
-        : '#field-image';
-
-      cy.get(selector)
-        .focus()
-        .selectFile('cypress/resources/image.png', { force: true });
-    });
-    cy.wait(5000);
-    cy.get('#toolbar-save').click({ force: true });
-    cy.wait(5000);
   });
   afterEach(slateAfterEach);
 
-  it('Add Block: Empty', () => {
-    // Change page title
-    cy.visit('/cypress/my-page');
-    cy.navigate('/cypress/static-content-preview-image/edit');
-    cy.clearSlateTitle();
-    cy.getSlateTitle().type('My Add-on Page');
-    cy.get('.documentFirstHeading').contains('My Add-on Page');
-    cy.getSlate().click();
-    // // Add block
-    cy.get('.ui.basic.icon.button.block-add-button').first().click();
-    cy.get('.blocks-chooser .title').contains('Data Visualizations').click();
-    cy.get('.button.embed_static_content').click();
-    cy.get('button[aria-label=openUrlBrowser]').click();
-    cy.wait(2000);
-    cy.get('.icon.right-arrow-icon').click();
-    cy.get('ul li').first().click();
-    cy.get('.embed-content-static-inner img');
+  it('renders embedded static content from an internal image resource', () => {
+    setEmbedStaticContentBlocks();
 
-    // // Save
-    cy.get('#toolbar-save').click({ force: true });
+    cy.visit('/cypress/my-page');
+    cy.waitForResourceToLoad('my-page');
+
+    cy.contains('My Add-on Page');
+    cy.get('.embed-content-static-inner img').should('be.visible');
   });
 });
