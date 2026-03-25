@@ -1,4 +1,4 @@
-import { slateBeforeEach, slateAfterEach } from '../support/e2e';
+import { slateAfterEach } from '../support/e2e';
 
 describe('Blocks Tests', () => {
   beforeEach(() => {
@@ -9,7 +9,7 @@ describe('Blocks Tests', () => {
       contentTitle: 'Cypress',
     });
     cy.createContent({
-      contentType: 'Document',
+      contentType: 'Image',
       contentId: 'static-content-preview-image',
       contentTitle: 'Static Content Preview Image',
       path: 'cypress',
@@ -20,37 +20,42 @@ describe('Blocks Tests', () => {
       contentTitle: 'My Page',
       path: 'cypress',
     });
-    cy.visit('/cypress/static-content-preview-image');
-    cy.waitForResourceToLoad('static-content-preview-image');
-    cy.navigate('/cypress/static-content-preview-image/edit');
-    cy.get('#field-preview_image')
-      .focus()
-      .selectFile('cypress/resources/image.png', { force: true });
-    cy.wait(5000);
-    cy.get('#toolbar-save').click({ force: true });
-    cy.wait(5000);
+    cy.visit('/cypress/my-page');
+    cy.waitForResourceToLoad('my-page');
+    cy.navigate('/cypress/my-page/edit');
   });
   afterEach(slateAfterEach);
 
   it('Add Block: Empty', () => {
+    // Ignore Not Found errors from partial URL lookups while typing
+    cy.on('uncaught:exception', () => false);
+
     // Change page title
-    cy.visit('/cypress/my-page');
-    cy.navigate('/cypress/static-content-preview-image/edit');
     cy.clearSlateTitle();
     cy.getSlateTitle().type('My Add-on Page');
     cy.get('.documentFirstHeading').contains('My Add-on Page');
+
     cy.getSlate().click();
-    // // Add block
+
+    // Add embed_static_content block
     cy.get('.ui.basic.icon.button.block-add-button').first().click();
     cy.get('.blocks-chooser .title').contains('Data Visualizations').click();
     cy.get('.button.embed_static_content').click();
-    cy.get('button[aria-label=openUrlBrowser]').click();
-    cy.wait(2000);
-    cy.get('.icon.right-arrow-icon').click();
-    cy.get('ul li').first().click();
+
+    // Type the URL in the sidebar InternalUrlWidget
+    cy.get('.sidebar-container #field-url')
+      .click()
+      .type('/cypress/static-content-preview-image');
+
+    // Wait for the embed to render
     cy.get('.embed-content-static-inner img');
 
-    // // Save
-    cy.get('#toolbar-save').click({ force: true });
+    // Save
+    cy.get('#toolbar-save').click();
+    cy.url().should('eq', Cypress.config().baseUrl + '/cypress/my-page');
+
+    // then the page view should contain our changes
+    cy.contains('My Add-on Page');
+    cy.get('.embed-content-static-inner img').should('be.visible');
   });
 });
