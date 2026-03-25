@@ -1,36 +1,5 @@
 import { slateAfterEach } from '../support/e2e';
 
-const API_PATH = Cypress.env('API_PATH') || 'http://localhost:8080/Plone';
-const AUTH = {
-  user: 'admin',
-  pass: 'admin',
-};
-
-const setEmbedStaticContentBlocks = () =>
-  cy.request({
-    method: 'PATCH',
-    url: `${API_PATH}/cypress/my-page`,
-    headers: {
-      Accept: 'application/json',
-    },
-    auth: AUTH,
-    body: {
-      title: 'My Add-on Page',
-      blocks: {
-        title: {
-          '@type': 'title',
-        },
-        embed: {
-          '@type': 'embed_static_content',
-          url: '/cypress/static-content-preview-image',
-        },
-      },
-      blocks_layout: {
-        items: ['title', 'embed'],
-      },
-    },
-  });
-
 describe('Blocks Tests', () => {
   beforeEach(() => {
     cy.autologin();
@@ -51,15 +20,41 @@ describe('Blocks Tests', () => {
       contentTitle: 'My Page',
       path: 'cypress',
     });
+    cy.visit('/cypress/my-page');
+    cy.waitForResourceToLoad('my-page');
+    cy.navigate('/cypress/my-page/edit');
   });
   afterEach(slateAfterEach);
 
-  it('renders embedded static content from an internal image resource', () => {
-    setEmbedStaticContentBlocks();
+  it('Add Block: Empty', () => {
+    // Ignore Not Found errors from partial URL lookups while typing
+    cy.on('uncaught:exception', () => false);
 
-    cy.visit('/cypress/my-page');
-    cy.waitForResourceToLoad('my-page');
+    // Change page title
+    cy.clearSlateTitle();
+    cy.getSlateTitle().type('My Add-on Page');
+    cy.get('.documentFirstHeading').contains('My Add-on Page');
 
+    cy.getSlate().click();
+
+    // Add embed_static_content block
+    cy.get('.ui.basic.icon.button.block-add-button').first().click();
+    cy.get('.blocks-chooser .title').contains('Data Visualizations').click();
+    cy.get('.button.embed_static_content').click();
+
+    // Type the URL in the sidebar InternalUrlWidget
+    cy.get('.sidebar-container #field-url', { timeout: 10000 })
+      .click()
+      .type('/cypress/static-content-preview-image');
+
+    // Wait for the embed to render
+    cy.get('.embed-content-static-inner img', { timeout: 10000 });
+
+    // Save
+    cy.get('#toolbar-save').click();
+    cy.url().should('eq', Cypress.config().baseUrl + '/cypress/my-page');
+
+    // then the page view should contain our changes
     cy.contains('My Add-on Page');
     cy.get('.embed-content-static-inner img').should('be.visible');
   });
