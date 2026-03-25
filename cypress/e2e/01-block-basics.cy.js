@@ -43,12 +43,12 @@ describe('Blocks Tests', () => {
     cy.get('.button.embed_static_content').click();
 
     // Type the URL in the sidebar InternalUrlWidget
-    cy.get('.sidebar-container #field-url', { timeout: 10000 })
+    cy.get('.sidebar-container #field-url')
       .click()
       .type('/cypress/static-content-preview-image');
 
     // Wait for the embed to render
-    cy.get('.embed-content-static-inner img', { timeout: 10000 });
+    cy.get('.embed-content-static-inner img');
 
     // Save
     cy.get('#toolbar-save').click();
