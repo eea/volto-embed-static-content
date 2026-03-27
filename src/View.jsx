@@ -6,6 +6,10 @@ import { getFigureMetadata, getFigurePosition } from './helpers';
 import { mapKeys } from 'lodash';
 import Embed from './Embed';
 import FigurePicker from './components/FigurePicker';
+import config from '@plone/volto/registry';
+
+// Minimal in-memory guard to avoid duplicate concurrent dispatches per URL
+const __embedStaticHasLoaded = new Set();
 
 function View(props) {
   const { mode, onChangeBlock, block } = props;
@@ -44,9 +48,25 @@ function View(props) {
   }, [props.embedContent, url]);
 
   useEffect(() => {
-    if (url && !props.data.embedContent) {
-      props.getContent(flattenToAppURL(url), null, props.id);
-    }
+    if (!url) return;
+
+    const subrequestKey = props.subrequestKey;
+    const req = props.embedRequest;
+
+    if (req?.loaded || req?.loading) return;
+
+    // Guard against concurrent duplicate dispatches across identical blocks
+    if (__embedStaticHasLoaded.has(url)) return;
+    __embedStaticHasLoaded.add(url);
+
+    // Temporarily disable apiExpanders to minimize payload for embeds
+    const originalApiExpanders = [...(config.settings.apiExpanders || [])];
+    config.settings.apiExpanders = [];
+    props.getContent(url, null, subrequestKey).finally(() => {
+      // Restore expanders after request settles
+      config.settings.apiExpanders = originalApiExpanders;
+      __embedStaticHasLoaded.delete(url);
+    });
     /* eslint-disable-next-line */
   }, [url]);
 
@@ -131,9 +151,20 @@ function View(props) {
 }
 
 export default connect(
-  (state, props) => ({
-    embedContent: state.content.subrequests?.[props.id]?.data,
-    data_query: state.content?.data?.data_query,
+  (state, props) => {
+    const url = flattenToAppURL(props.data?.url || '');
+    const subrequestKey = url || null;
+    const embedRequest = subrequestKey
+      ? state.content.subrequests?.[subrequestKey]
+      : null;
+    return {
+      embedContent: embedRequest?.data,
+      embedRequest,
+      subrequestKey,
+      data_query: state.content?.data?.data_query,
+    };
+  },
+  (dispatch) => ({
+    getContent: (...args) => dispatch(getContent(...args)),
   }),
-  { getContent },
 )(View);
