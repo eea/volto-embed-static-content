@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
-import { getContent } from '@plone/volto/actions';
-import { flattenToAppURL } from '@plone/volto/helpers';
+import { getContent } from '@plone/volto/actions/content/content';
+import { flattenToAppURL } from '@plone/volto/helpers/Url/Url';
 import { getFigureMetadata, getFigurePosition } from './helpers';
-import { mapKeys } from 'lodash';
+import mapKeys from 'lodash/mapKeys';
 import Embed from './Embed';
 import FigurePicker from './components/FigurePicker';
 

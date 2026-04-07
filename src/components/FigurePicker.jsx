@@ -5,9 +5,10 @@ import { compose } from 'redux';
 
 import { defineMessages, injectIntl } from 'react-intl';
 import { Message, Button, Input } from 'semantic-ui-react';
-import { FormFieldWrapper, Icon } from '@plone/volto/components';
+import Icon from '@plone/volto/components/theme/Icon/Icon';
+import { FormFieldWrapper } from '@plone/volto/components/manage/Widgets';
 import withObjectBrowser from '@plone/volto/components/manage/Sidebar/ObjectBrowser';
-import { createContent } from '@plone/volto/actions';
+import { createContent } from '@plone/volto/actions/content/content';
 
 import imageBlockSVG from '@plone/volto/components/manage/Blocks/Image/block-image.svg';
 import clearSVG from '@plone/volto/icons/clear.svg';
