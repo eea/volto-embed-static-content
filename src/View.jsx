@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import { connect } from 'react-redux';
+import config from '@plone/volto/registry';
 import { getContent } from '@plone/volto/actions/content/content';
 import { flattenToAppURL } from '@plone/volto/helpers/Url/Url';
 import { getFigureMetadata, getFigurePosition } from './helpers';
@@ -81,6 +82,7 @@ function View(props) {
         position,
       );
       if (!metadataSection) return;
+      if (!config.blocks.blocksConfig['group']) return;
 
       props.onInsertBlock(props.block, metadataSection);
     }
