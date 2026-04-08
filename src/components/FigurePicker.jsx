@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import { defineMessages, injectIntl } from 'react-intl';
-import { Message, Button, Input } from 'semantic-ui-react';
-import { FormFieldWrapper, Icon } from '@plone/volto/components';
+import { Message, Button, Input, Image } from 'semantic-ui-react';
+import Icon from '@plone/volto/components/theme/Icon/Icon';
+import FormFieldWrapper from '@plone/volto/components/manage/Widgets/FormFieldWrapper';
 import withObjectBrowser from '@plone/volto/components/manage/Sidebar/ObjectBrowser';
-import { createContent } from '@plone/volto/actions';
+import { createContent } from '@plone/volto/actions/content/content';
 
 import imageBlockSVG from '@plone/volto/components/manage/Blocks/Image/block-image.svg';
 import clearSVG from '@plone/volto/icons/clear.svg';
@@ -88,7 +89,7 @@ export class FigurePickerWidget extends Component {
         <div>
           <Message>
             <div className="no-image-wrapper" style={{ textAlign: 'center' }}>
-              <img src={imageBlockSVG} alt="" />
+              <Image src={imageBlockSVG} alt="" loading="lazy" />
               <div className="toolbar-inner">
                 <Button.Group>
                   <Button
