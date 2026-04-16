@@ -45,8 +45,9 @@ function View(props) {
   }, [props.embedContent, url]);
 
   useEffect(() => {
-    if (url && !props.data.embedContent) {
-      props.getContent(flattenToAppURL(url), null, props.id);
+    const path = flattenToAppURL(url);
+    if (path && !props.data.embedContent) {
+      props.getContent(path, null, path);
     }
     /* eslint-disable-next-line */
   }, [url]);
@@ -133,9 +134,12 @@ function View(props) {
 }
 
 export default connect(
-  (state, props) => ({
-    embedContent: state.content.subrequests?.[props.id]?.data,
-    data_query: state.content?.data?.data_query,
-  }),
+  (state, props) => {
+    const path = flattenToAppURL(props.data.url || '');
+    return {
+      embedContent: state.content.subrequests?.[path]?.data,
+      data_query: state.content?.data?.data_query,
+    };
+  },
   { getContent },
 )(View);
