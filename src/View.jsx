@@ -1,15 +1,21 @@
 import React, { useEffect, useMemo } from 'react';
+import { useIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import config from '@plone/volto/registry';
 import { getContent } from '@plone/volto/actions/content/content';
 import { flattenToAppURL } from '@plone/volto/helpers/Url/Url';
-import { getFigureMetadata, getFigurePosition } from './helpers';
-import mapKeys from 'lodash/mapKeys';
+import {
+  deleteGeneratedFigureMetadataBlock,
+  getFigureMetadata,
+  getFigurePosition,
+  insertFigureMetadataBeforeBlock,
+} from './helpers';
 import Embed from './Embed';
 import FigurePicker from './components/FigurePicker';
 
 function View(props) {
   const { mode, onChangeBlock, block } = props;
+  const intl = useIntl();
   const {
     with_notes = true,
     with_more_info = true,
@@ -57,16 +63,12 @@ function View(props) {
     const with_metadata_section = props.data?.with_metadata_section ?? true;
     if (mode !== 'edit') return;
     if (!with_metadata_section) {
-      let metadataBlock = null;
-      mapKeys(props.properties.blocks, (data, block) => {
-        if (data?.['id'] === `figure-metadata-${props.block}`) {
-          metadataBlock = block;
-        }
+      deleteGeneratedFigureMetadataBlock({
+        properties: props.properties,
+        block: props.block,
+        onDeleteBlock: props.onDeleteBlock,
+        onSelectBlock: props.onSelectBlock,
       });
-      if (metadataBlock) {
-        props.onDeleteBlock(metadataBlock);
-        props.onSelectBlock(props.block);
-      }
       return;
     }
     if (embedContent) {
@@ -85,10 +87,18 @@ function View(props) {
       if (!metadataSection) return;
       if (!config.blocks.blocksConfig['group']) return;
 
-      props.onInsertBlock(props.block, metadataSection);
+      insertFigureMetadataBeforeBlock({
+        properties: props.properties,
+        block: props.block,
+        metadataSection,
+        blocksConfig: props.blocksConfig || config.blocks.blocksConfig,
+        intl,
+        onChangeFormData: props.onChangeFormData,
+        onInsertBlock: props.onInsertBlock,
+      });
     }
     /* eslint-disable-next-line */
-  }, [props.data.with_metadata_section, embedContent, mode]);
+  }, [props.data.with_metadata_section, embedContent, mode, intl]);
 
   if (mode === 'edit' && (!url || embedContent?.error)) {
     return (
