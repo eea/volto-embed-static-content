@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { injectIntl } from 'react-intl';
-import { Image } from 'semantic-ui-react';
+import Image from '@plone/volto/components/theme/Image/Image';
 
 import cx from 'classnames';
 import {
