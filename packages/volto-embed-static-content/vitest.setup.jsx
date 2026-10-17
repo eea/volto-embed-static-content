@@ -27,10 +27,7 @@ vi.doMock('semantic-ui-react', () => ({
   Popup: ({ content, trigger, open, onOpen, onClose }) => {
     return (
       <div className="popup">
-        <div
-          className="trigger"
-          onClick={() => (open ? onClose : onOpen)?.()}
-        >
+        <div className="trigger" onClick={() => (open ? onClose : onOpen)?.()}>
           {trigger}
         </div>
         {open && <div className="content">{content}</div>}
