@@ -24,11 +24,16 @@ config.blocks.blocksConfig = {
 vi.doMock('semantic-ui-react', () => ({
   __esModule: true,
   ...mockSemanticComponents,
-  Popup: ({ content, trigger }) => {
+  Popup: ({ content, trigger, open, onOpen, onClose }) => {
     return (
       <div className="popup">
-        <div className="trigger">{trigger}</div>
-        <div className="content">{content}</div>
+        <div
+          className="trigger"
+          onClick={() => (open ? onClose : onOpen)?.()}
+        >
+          {trigger}
+        </div>
+        {open && <div className="content">{content}</div>}
       </div>
     );
   },
