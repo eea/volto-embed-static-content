@@ -6,6 +6,24 @@
 
 [Volto](https://github.com/plone/volto) add-on
 
+## Upgrade
+
+### Upgrading to 2.x
+
+> This version requires `Volto 18` or `Volto 19` and Node.js 22.
+
+The block id, the schema fields and the package entry point are unchanged. The release adds Volto 19 support and moves the published package to `packages/volto-embed-static-content`.
+
+#### Changes you can see
+
+- **Figures render through Volto's `Image`** instead of Semantic UI's, so the `<img>` no longer carries the `ui image` class and is marked `fetchpriority="high"`. Site rules that target `.ui.image` no longer apply to embedded figures.
+- **The download button** dispatches its synthetic click without `view: window`.
+
+#### Breaking changes
+
+- **Node.js 22 or newer is required** (`engines.node >= 22`).
+- **React 18 is required.** The package declares `react` and `react-dom` as `^18.2.0` peers.
+
 ## Features
 
 https://github.com/eea/volto-embed-static-content/assets/50819975/dfafd551-f8d4-4517-aed5-46be3fb9c8da
