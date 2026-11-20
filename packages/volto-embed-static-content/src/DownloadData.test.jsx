@@ -4,9 +4,9 @@ import Download from './DownloadData';
 import { downloadDataURL } from './helpers';
 import '@testing-library/jest-dom';
 
-jest.mock('./helpers', () => ({
-  downloadDataURL: jest.fn(),
-  getFileExtension: jest.fn(() => 'png'),
+vi.mock('./helpers', () => ({
+  downloadDataURL: vi.fn(),
+  getFileExtension: vi.fn(() => 'png'),
 }));
 
 describe('Download component', () => {
@@ -22,7 +22,7 @@ describe('Download component', () => {
   };
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders correctly with the download button', () => {
