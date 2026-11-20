@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import { defineMessages, injectIntl } from 'react-intl';
-import { Message, Button, Input, Image } from 'semantic-ui-react';
+import { Message, Button, Input } from 'semantic-ui-react';
 import Icon from '@plone/volto/components/theme/Icon/Icon';
+import Image from '@plone/volto/components/theme/Image/Image';
 import FormFieldWrapper from '@plone/volto/components/manage/Widgets/FormFieldWrapper';
 import withObjectBrowser from '@plone/volto/components/manage/Sidebar/ObjectBrowser';
 import { createContent } from '@plone/volto/actions/content/content';

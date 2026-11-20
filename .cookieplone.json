@@ -1,0 +1,7 @@
+{
+  "title": "Embed Static Content",
+  "frontend_addon_name": "volto-embed-static-content",
+  "description": "@eeacms/volto-embed-static-content: Volto add-on",
+  "volto_version": "19.3.0",
+  "__template__": "frontend_addon"
+}

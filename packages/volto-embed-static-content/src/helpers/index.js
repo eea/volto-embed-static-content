@@ -10,7 +10,6 @@ export function downloadDataURL(dataURL, filename) {
 
   // Simulate a click event to trigger the download
   const clickEvent = new MouseEvent('click', {
-    view: window,
     bubbles: true,
     cancelable: false,
   });
